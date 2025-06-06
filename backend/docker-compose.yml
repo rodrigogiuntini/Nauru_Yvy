@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecosolo_postgres
+    environment:
+      POSTGRES_USER: ecosolo
+      POSTGRES_PASSWORD: ecosolo123
+      POSTGRES_DB: ecosolo_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecosolo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis para cache e Celery
+  redis:
+    image: redis:7-alpine
+    container_name: ecosolo_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # API Backend FastAPI
+  api:
+    build: .
+    container_name: ecosolo_api
+    environment:
+      - DATABASE_URL=postgresql://ecosolo:ecosolo123@postgres:5432/ecosolo_db
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=ecosolo-dev-secret-key-change-in-production
+      - DEBUG=True
+      - ENVIRONMENT=development
+      - BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:19006"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./app:/app/app:ro  # Volume para development (opcional)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PgAdmin para administração do banco (desenvolvimento)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ecosolo_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ecosolo.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    profiles:
+      - development  # Só roda no perfil de desenvolvimento
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  default:
+    name: ecosolo_network 
