@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Naurú Yvy",
-    "slug": "solosano-app",
+    "slug": "nauru-yvy-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.solosano.app",
+      "bundleIdentifier": "com.nauru.yvy",
       "infoPlist": {
         "NSCameraUsageDescription": "Este app precisa acessar a câmera para escanear QR Codes e detectar ocorrências ambientais."
       }
@@ -26,9 +26,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.solosano.app",
+      "package": "com.nauru.yvy",
       "permissions": [
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -39,6 +42,12 @@
       "expo-location",
       "expo-camera"
     ],
-    "sdkVersion": "53.0.0"
+    "sdkVersion": "53.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "d4381425-5d8a-4663-a0fd-bc7b6d78369d"
+      }
+    },
+    "owner": "rodrigo.giuntini"
   }
 }
