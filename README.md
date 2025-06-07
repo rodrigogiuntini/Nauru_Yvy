@@ -178,7 +178,7 @@ Este projeto segue as **Diretrizes de Qualidade Bityx** para desenvolvimento Web
 
 ## 📄 Licença
 
-Projeto desenvolvido para **CAInvest** - Todos os direitos reservados.
+Projeto desenvolvido por Rodrigo,Morena,Pedro - Todos os direitos reservados.
 
 ---
 
