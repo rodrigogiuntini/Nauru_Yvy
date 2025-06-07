@@ -103,28 +103,6 @@ O projeto segue as diretrizes de design da **Bityx/CAInvest** com:
 - Grid de 8px para espaçamentos
 - Suporte a modo claro/escuro
 
-## 🔧 Estrutura do Projeto
-
-```
-/
-├── src/
-│   ├── ui/
-│   │   ├── components/     # Componentes reutilizáveis
-│   │   ├── layouts/        # Layouts base
-│   │   └── styles/         # Estilos globais
-│   ├── pages/              # Telas da aplicação
-│   ├── context/            # Context API
-│   ├── services/           # APIs e serviços
-│   └── utils/              # Utilitários
-├── backend/
-│   ├── app/
-│   │   ├── api/            # Rotas da API
-│   │   ├── models/         # Modelos do banco
-│   │   ├── schemas/        # Schemas Pydantic
-│   │   └── core/           # Configurações
-│   └── alembic/            # Migrações
-└── assets/                 # Recursos estáticos
-```
 
 ## 🧪 Credenciais de Teste
 
