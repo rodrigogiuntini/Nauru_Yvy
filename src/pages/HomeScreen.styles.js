@@ -4,7 +4,7 @@ import { Colors, Typography, Spacing } from '../ui/design-system/tokens';
 export const homeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#000000',
   },
   scrollView: {
     flex: 1,
@@ -20,32 +20,123 @@ export const homeStyles = StyleSheet.create({
     minHeight: 180,
   },
   mapContainer: {
-    flex: 1,
+    alignItems: 'center',
+    marginBottom: Spacing.xl,
+    paddingTop: Spacing.lg,
   },
-  mapTitle: {
-    fontSize: Typography.fontSize.lg,
-    fontWeight: Typography.fontWeight.semibold,
-    color: Colors.textPrimary,
-    marginBottom: Spacing.md,
-  },
-  mapPlaceholder: {
-    flex: 1,
+  brazilMap: {
+    width: 300,
+    height: 200,
+    backgroundColor: '#4ECDC4',
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+    shadowColor: '#4ECDC4',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  mapPlaceholder: {
+    fontSize: 60,
+    opacity: 0.8,
+  },
+  titleSection: {
+    marginBottom: Spacing.xl,
+    paddingHorizontal: Spacing.sm,
+  },
+  mainTitle: {
+    fontSize: 22,
+    fontWeight: Typography.fontWeight.bold,
+    color: '#FFFFFF',
+    textAlign: 'left',
+    lineHeight: 28,
+  },
+  descriptionSection: {
+    marginBottom: Spacing.xl,
+    paddingHorizontal: Spacing.sm,
+  },
+  description: {
+    fontSize: 16,
+    color: '#CCCCCC',
+    lineHeight: 24,
+    marginBottom: Spacing.md,
+    textAlign: 'justify',
+  },
+  featuresSection: {
+    marginBottom: Spacing.xl,
+    paddingHorizontal: Spacing.sm,
+  },
+  featuresTitle: {
+    fontSize: 18,
+    fontWeight: Typography.fontWeight.semibold,
+    color: '#FFFFFF',
+    marginBottom: Spacing.lg,
+  },
+  featuresList: {
+    paddingLeft: Spacing.sm,
+  },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.md,
+  },
+  bullet: {
+    fontSize: 16,
+    color: '#4ECDC4',
+    marginRight: Spacing.sm,
+    marginTop: 2,
+    fontWeight: Typography.fontWeight.bold,
+  },
+  featureText: {
+    flex: 1,
+    fontSize: 16,
+    color: '#CCCCCC',
+    lineHeight: 22,
+  },
+  territoriesSection: {
+    paddingHorizontal: Spacing.sm,
+  },
+  territoriesTitle: {
+    fontSize: 18,
+    fontWeight: Typography.fontWeight.semibold,
+    color: '#FFFFFF',
+    marginBottom: Spacing.lg,
+  },
+  territoryCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#1A1A1A',
+    borderRadius: 12,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+    borderWidth: 1,
+    borderColor: '#333333',
+  },
+  territoryInfo: {
+    flex: 1,
+  },
+  territoryName: {
+    fontSize: 16,
+    fontWeight: Typography.fontWeight.semibold,
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  territoryLocation: {
+    fontSize: 14,
+    color: '#888888',
+  },
+  territoryImageContainer: {
+    marginLeft: Spacing.md,
+  },
+  territoryImage: {
+    width: 60,
+    height: 60,
     borderRadius: 8,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    borderStyle: 'dashed',
-  },
-  mapIcon: {
-    fontSize: 40,
-    marginBottom: Spacing.sm,
-  },
-  mapText: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textSecondary,
-    fontWeight: Typography.fontWeight.medium,
   },
   soilCard: {
     marginBottom: Spacing.lg,

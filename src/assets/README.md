@@ -1,8 +1,8 @@
-# 📁 Assets - SoloSano MVP
+# 📁 Assets - Naurú Yvy MVP
 
 ## 🎯 Visão Geral
 
-A pasta `assets` centraliza todos os recursos estáticos e estilos do projeto SoloSano MVP, seguindo as diretrizes de qualidade para plataformas Web3/FinTech.
+A pasta `assets` centraliza todos os recursos estáticos e estilos do projeto Naurú Yvy MVP, seguindo as diretrizes de qualidade para plataformas Web3/FinTech.
 
 ## 📂 Estrutura
 

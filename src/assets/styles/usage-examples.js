@@ -2,7 +2,7 @@
  * 📚 EXEMPLOS DE USO - Estilos Separados
  * 
  * Este arquivo demonstra como usar a nova estrutura de estilos
- * separados no projeto SoloSano MVP.
+ * separados no projeto Naurú Yvy MVP.
  */
 
 // ========================================

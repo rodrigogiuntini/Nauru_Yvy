@@ -131,7 +131,7 @@ const LoginScreen = ({ navigation }) => {
                 title="Esqueceu a senha?"
                 variant="ghost"
                 size="small"
-                onPress={() => Alert.alert('Info', 'Funcionalidade em desenvolvimento')}
+                onPress={() => navigation.navigate('ForgotPassword')}
               />
               
               <View style={styles.signupContainer}>

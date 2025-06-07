@@ -4,29 +4,64 @@ import { Colors, Typography, Spacing } from '../ui/design-system/tokens';
 export const alertsStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#000000',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: Spacing.md,
+    paddingHorizontal: Spacing.lg,
     paddingBottom: Spacing['6xl'],
-    flexGrow: 1,
-    minHeight: '100%',
   },
-  timeGroup: {
+
+  // Título Principal
+  pageTitle: {
+    fontSize: 28,
+    fontWeight: Typography.fontWeight.bold,
+    color: '#FFFFFF',
     marginBottom: Spacing.xl,
+    marginTop: Spacing.lg,
   },
-  timeGroupTitle: {
-    fontSize: Typography.fontSize.lg,
-    fontWeight: Typography.fontWeight.semibold,
-    color: Colors.textPrimary,
-    marginBottom: Spacing.md,
+
+  // Filtros
+  filtersContainer: {
+    flexDirection: 'row',
+    marginBottom: Spacing.xl,
+    gap: Spacing.sm,
+  },
+  filterButton: {
+    backgroundColor: '#22C55E',
+    borderRadius: 8,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minWidth: 80,
+    justifyContent: 'center',
+  },
+  filterButtonSelected: {
+    backgroundColor: '#16A34A',
+  },
+  filterIcon: {
+    fontSize: 16,
+    marginRight: Spacing.xs,
+  },
+  filterText: {
+    fontSize: 14,
+    fontWeight: Typography.fontWeight.medium,
+    color: '#FFFFFF',
+  },
+
+  // Lista de Alertas
+  alertsList: {
+    gap: Spacing.md,
   },
   alertCard: {
-    marginBottom: Spacing.md,
-    padding: Spacing.md,
+    backgroundColor: '#1A1A1A',
+    borderRadius: 12,
+    padding: Spacing.lg,
+    borderWidth: 1,
+    borderColor: '#333333',
   },
   alertContent: {
     flexDirection: 'row',
@@ -41,8 +76,7 @@ export const alertsStyles = StyleSheet.create({
   alertIconContainer: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.surfaceLight,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: Spacing.md,
@@ -53,42 +87,27 @@ export const alertsStyles = StyleSheet.create({
   alertInfo: {
     flex: 1,
   },
-  alertHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.xs,
-  },
   alertTitle: {
-    fontSize: Typography.fontSize.base,
+    fontSize: 16,
     fontWeight: Typography.fontWeight.semibold,
-    color: Colors.textPrimary,
-    marginBottom: 2,
+    marginBottom: 4,
   },
-  alertDetails: {
-    fontSize: Typography.fontSize.sm,
-    color: Colors.textSecondary,
+  alertSubtitle: {
+    fontSize: 14,
+    color: '#888888',
   },
-  alertLocation: {
-    fontSize: Typography.fontSize.xs,
-    color: Colors.textSecondary,
-    fontStyle: 'italic',
-    marginTop: Spacing.xs,
-  },
-  alertRight: {
+
+  // Botão Detalhes
+  detailsButton: {
+    backgroundColor: '#22C55E',
+    borderRadius: 8,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.sm,
     marginLeft: Spacing.md,
   },
-  alertImageContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 8,
-    backgroundColor: Colors.surfaceLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  alertImage: {
-    fontSize: 28,
-  },
-  bottomSpacing: {
-    height: Spacing['4xl'],
+  detailsButtonText: {
+    fontSize: 14,
+    fontWeight: Typography.fontWeight.medium,
+    color: '#FFFFFF',
   },
 }); 

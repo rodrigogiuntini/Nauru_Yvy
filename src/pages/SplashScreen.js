@@ -39,7 +39,7 @@ const SplashScreen = ({ navigation }) => {
 
         {/* Título e Subtítulo */}
         <View style={styles.textContainer}>
-          <Text style={styles.title}>SoloSano</Text>
+          <Text style={styles.title}>Naurú Yvy</Text>
           <Text style={styles.subtitle}>
             Monitore a saúde do solo com precisão e facilidade
           </Text>

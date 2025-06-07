@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
         
         // Credenciais de teste para desenvolvimento
         const testCredentials = [
-          { email: 'admin@ecosolo.com', password: 'admin123', name: 'Admin EcoSolo', role: 'Administrador' },
+          { email: 'admin@ecosolo.com', password: 'admin123', name: 'Admin Naurú Yvy', role: 'Administrador' },
           { email: 'priya@example.com', password: '123456', name: 'Priya Santos', role: 'Líder Comunitário' },
           { email: 'joao.silva@ecosolo.com', password: '123456', name: 'João Silva', role: 'Membro da Comunidade' },
           { email: 'maria.oliveira@ecosolo.com', password: '123456', name: 'Maria Oliveira', role: 'Pesquisador' },

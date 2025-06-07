@@ -1,8 +1,8 @@
-# 🌱 SoloSano - Plataforma de Monitoramento Ambiental
+# 🌱 Naurú Yvy - Plataforma de Monitoramento Ambiental
 
 ## 📱 Sobre o Projeto
 
-SoloSano é uma aplicação móvel desenvolvida em React Native com backend FastAPI para monitoramento ambiental e análise de solo. A plataforma permite aos usuários:
+Naurú Yvy é uma aplicação móvel desenvolvida em React Native com backend FastAPI para monitoramento ambiental e análise de solo. A plataforma permite aos usuários:
 
 - 🔐 **Autenticação completa** (login/registro)
 - 👤 **Perfil de usuário** editável

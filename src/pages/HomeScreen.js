@@ -1,191 +1,149 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, Modal, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
-import Card from '../ui/components/Card';
-import Scanner from '../ui/components/Scanner';
-import { useAlerts } from '../context/AlertsContext';
 import { homeStyles as styles } from './HomeScreen.styles';
 
 const HomeScreen = () => {
-  const [showScanner, setShowScanner] = useState(false);
-  const { createAlertFromOccurrence } = useAlerts();
-
-  const parseQRCodeData = (data) => {
-    try {
-      // Tentar parsear como JSON
-      const parsed = JSON.parse(data);
-      return parsed;
-    } catch {
-      // Se não for JSON, tentar interpretar como texto simples
-      // Formato esperado: "tipo:localização:severidade:descrição"
-      const parts = data.split(':');
-      if (parts.length >= 4) {
-        return {
-          type: parts[0],
-          location: parts[1],
-          severity: parts[2],
-          description: parts[3]
-        };
-      }
-      
-      // Fallback: criar ocorrência genérica
-      return {
-        type: 'pollution',
-        location: 'Local detectado via QR Code',
-        severity: 'Média',
-        description: `Dados escaneados: ${data}`
-      };
+  const territories = [
+    {
+      name: 'Aldeia Jaraguá',
+      location: 'São Paulo',
+      image: require('../assets/img/image 2.png')
+    },
+    {
+      name: 'Aldeia Guarani Nhandeva',
+      location: 'São Paulo',
+      image: require('../assets/img/image 3.png')
+    },
+    {
+      name: 'Aldeia Parelheiros',
+      location: 'São Paulo',
+      image: require('../assets/img/image 5.png')
+    },
+    {
+      name: 'Aldeia Guarani Mbya',
+      location: 'São Paulo',
+      image: require('../assets/img/image 6.png')
+    },
+    {
+      name: 'Aldeia Yanomami',
+      location: 'São Paulo',
+      image: require('../assets/img/image 7.png')
+    },
+    {
+      name: 'Aldeia Manga',
+      location: 'São Paulo',
+      image: require('../assets/img/image 8.png')
+    },
+    {
+      name: 'Aldeia Guarani de Parnapuã',
+      location: 'São Paulo',
+      image: require('../assets/img/image 2.png')
     }
-  };
-
-  const handleScanResult = (data) => {
-    console.log('QR Code escaneado:', data);
-    setShowScanner(false);
-    
-    try {
-      const occurrenceData = parseQRCodeData(data);
-      const newAlert = createAlertFromOccurrence(occurrenceData);
-      
-      Alert.alert(
-        'Ocorrência Detectada!',
-        `Uma nova ocorrência foi criada automaticamente a partir do QR Code escaneado.\n\nTipo: ${newAlert.type}\nLocal: ${newAlert.location}`,
-        [
-          {
-            text: 'Ver Alertas',
-            onPress: () => {
-              // Navegar para alertas se tiver navegação disponível
-              console.log('Navegar para alertas');
-            }
-          },
-          { text: 'OK' }
-        ]
-      );
-    } catch (error) {
-      Alert.alert(
-        'Erro',
-        'Não foi possível processar os dados do QR Code. Verifique o formato e tente novamente.'
-      );
-    }
-  };
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header
-        title="EcoSolo 2.0"
-      />
+      <Header title="Naurú Yvy" />
       
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Scanner QR Code */}
-        <Card style={styles.mapCard} gradient onPress={() => setShowScanner(true)}>
-          <View style={styles.mapContainer}>
-            <Text style={styles.mapTitle}>Scanner de QR Code</Text>
-            <View style={styles.mapPlaceholder}>
-              <Text style={styles.mapIcon}>📱</Text>
-              <Text style={styles.mapText}>Escaneie para detectar ocorrências</Text>
-            </View>
+        {/* Mapa do Brasil */}
+        <View style={styles.mapContainer}>
+          <View style={styles.brazilMap}>
+            <Text style={styles.mapPlaceholder}>🇧🇷</Text>
           </View>
-        </Card>
+        </View>
 
-        {/* Modal do Scanner */}
-        <Modal
-          visible={showScanner}
-          animationType="slide"
-          presentationStyle="fullScreen"
-        >
-          <Scanner
-            onScan={handleScanResult}
-            onClose={() => setShowScanner(false)}
-          />
-        </Modal>
+        {/* Título Principal */}
+        <View style={styles.titleSection}>
+          <Text style={styles.mainTitle}>
+            Scanner de Solo via Drone para{'\n'}
+            Monitoramento Ambiental em Territórios{'\n'}
+            Indígenas.
+          </Text>
+        </View>
 
-        {/* Análise de Solo */}
-        <Card style={styles.soilCard}>
-          <View style={styles.soilHeader}>
-            <Text style={styles.sectionTitle}>Análise do Solo</Text>
-            <View style={styles.soilBadge}>
-              <Text style={styles.soilBadgeText}>Atualizado</Text>
-            </View>
-          </View>
+        {/* Descrição */}
+        <View style={styles.descriptionSection}>
+          <Text style={styles.description}>
+            Coleta em tempo real de informações topográficas e ambientais, contribuindo para a prevenção de desastres naturais como deslizamentos, erosão e degradação do solo.
+          </Text>
           
-          <View style={styles.soilContent}>
-            <View style={styles.soilImageContainer}>
-              <Text style={styles.soilEmoji}>🌱</Text>
+          <Text style={styles.description}>
+            Monitora as principais características do solo, oferecendo dados precisos sobre sua composição, umidade, declividade e estabilidade.
+          </Text>
+          
+          <Text style={styles.description}>
+            Através da integração de dados processados nos servidores, são obtidos relatórios interativo pelo aplicativo.
+          </Text>
+        </View>
+
+        {/* Funcionalidades */}
+        <View style={styles.featuresSection}>
+          <Text style={styles.featuresTitle}>Principais funcionalidades:</Text>
+          
+          <View style={styles.featuresList}>
+            <View style={styles.featureItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.featureText}>
+                Acesso em tempo real aos dados coletados pelo drone;
+              </Text>
             </View>
             
-            <View style={styles.soilDetails}>
-              <Text style={styles.soilType}>Tipo: Argiloso</Text>
-              <Text style={styles.soilInfo}>Umidade: 25%</Text>
-              <Text style={styles.soilInfo}>Textura: Fina</Text>
-              <Text style={styles.soilInfo}>Retenção de Água: Alta</Text>
-              <Text style={styles.soilInfo}>Fertilidade: Moderada</Text>
-              <Text style={styles.soilInfo}>Drenagem: Boa</Text>
+            <View style={styles.featureItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.featureText}>
+                Registro manual de observações locais sobre solo, clima e impactos ambientais;
+              </Text>
+            </View>
+            
+            <View style={styles.featureItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.featureText}>
+                Visualização de mapas de risco gerados a partir da fusão dos dados automatizados e dos registros locais;
+              </Text>
+            </View>
+            
+            <View style={styles.featureItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.featureText}>
+                Análise automatizada por algoritmos, que classificam o nível de criticidade do solo e emitem alertas preventivos;
+              </Text>
+            </View>
+            
+            <View style={styles.featureItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.featureText}>
+                Sugestões de ações ou medidas de mitigação, baseadas em protocolos técnicos adaptados ao contexto local.
+              </Text>
             </View>
           </View>
-        </Card>
-
-        {/* Cards de Status */}
-        <View style={styles.statusCards}>
-          <Card style={[styles.statusCard, styles.statusSuccess]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>💧</Text>
-            <Text style={styles.statusLabel}>Umidade</Text>
-            <Text style={styles.statusValue}>25%</Text>
-          </Card>
-          
-          <Card style={[styles.statusCard, styles.statusWarning]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🌡️</Text>
-            <Text style={styles.statusLabel}>Temperatura</Text>
-            <Text style={styles.statusValue}>23°C</Text>
-          </Card>
         </View>
 
-        <View style={styles.statusCards}>
-          <Card style={[styles.statusCard, styles.statusInfo]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🧪</Text>
-            <Text style={styles.statusLabel}>pH</Text>
-            <Text style={styles.statusValue}>6.8</Text>
-          </Card>
+        {/* Territórios Monitorados */}
+        <View style={styles.territoriesSection}>
+          <Text style={styles.territoriesTitle}>Territórios monitorados:</Text>
           
-          <Card style={[styles.statusCard, styles.statusError]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🌿</Text>
-            <Text style={styles.statusLabel}>Nutrientes</Text>
-            <Text style={styles.statusValue}>Baixo</Text>
-          </Card>
-        </View>
-
-        {/* Últimas Análises */}
-        <View style={styles.recentSection}>
-          <Text style={styles.sectionTitle}>Análises Recentes</Text>
-          
-          <Card style={styles.recentCard} onPress={() => {}}>
-            <View style={styles.recentItem}>
-              <Text style={styles.recentIcon}>📊</Text>
-              <View style={styles.recentDetails}>
-                <Text style={styles.recentTitle}>Análise Completa - Sector A</Text>
-                <Text style={styles.recentDate}>Hoje, 14:30</Text>
+          {territories.map((territory, index) => (
+            <View key={index} style={styles.territoryCard}>
+              <View style={styles.territoryInfo}>
+                <Text style={styles.territoryName}>{territory.name}</Text>
+                <Text style={styles.territoryLocation}>{territory.location}</Text>
               </View>
-              <View style={styles.recentStatus}>
-                <Text style={styles.recentStatusText}>Concluído</Text>
+              <View style={styles.territoryImageContainer}>
+                <Image 
+                  source={territory.image} 
+                  style={styles.territoryImage}
+                  resizeMode="cover"
+                />
               </View>
             </View>
-          </Card>
-
-          <Card style={styles.recentCard} onPress={() => {}}>
-            <View style={styles.recentItem}>
-              <Text style={styles.recentIcon}>🔬</Text>
-              <View style={styles.recentDetails}>
-                <Text style={styles.recentTitle}>Teste de Fertilidade</Text>
-                <Text style={styles.recentDate}>Ontem, 09:15</Text>
-              </View>
-              <View style={styles.recentStatus}>
-                <Text style={styles.recentStatusText}>Processando</Text>
-              </View>
-            </View>
-          </Card>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>

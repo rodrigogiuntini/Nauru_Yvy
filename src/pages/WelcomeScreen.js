@@ -32,7 +32,7 @@ const WelcomeScreen = ({ navigation }) => {
 
           {/* Título Principal */}
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Bem-vindo ao{'\n'}SoloSano!</Text>
+            <Text style={styles.title}>Bem-vindo ao{'\n'}Naurú Yvy!</Text>
             <Text style={styles.subtitle}>
               Monitore a saúde do solo com precisão e{'\n'}facilidade.
             </Text>

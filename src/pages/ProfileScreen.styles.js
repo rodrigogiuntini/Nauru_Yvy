@@ -4,106 +4,116 @@ import { Colors, Typography, Spacing } from '../ui/design-system/tokens';
 export const profileStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#000000',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    padding: Spacing.md,
+    paddingHorizontal: Spacing.lg,
     paddingBottom: Spacing['6xl'],
-    flexGrow: 1,
-    minHeight: '100%',
   },
-  profileCard: {
-    alignItems: 'center',
-    marginBottom: Spacing.lg,
-  },
+
+  // Header do Perfil
   profileHeader: {
     alignItems: 'center',
+    marginBottom: Spacing.xl * 2,
+    marginTop: Spacing.lg,
   },
-  avatar: {
+  avatarContainer: {
     marginBottom: Spacing.lg,
   },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#F5DEB3',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarIcon: {
+    fontSize: 60,
+  },
   userName: {
-    fontSize: Typography.fontSize['2xl'],
+    fontSize: 24,
     fontWeight: Typography.fontWeight.bold,
-    color: Colors.textPrimary,
+    color: '#FFFFFF',
     marginBottom: Spacing.xs,
   },
   userRole: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textSecondary,
+    fontSize: 16,
+    color: '#888888',
   },
+
+  // Seções
   section: {
-    marginBottom: Spacing['2xl'],
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Spacing.md,
+    marginBottom: Spacing.xl * 2,
   },
   sectionTitle: {
-    fontSize: Typography.fontSize.lg,
+    fontSize: 18,
     fontWeight: Typography.fontWeight.semibold,
-    color: Colors.textPrimary,
+    color: '#FFFFFF',
+    marginBottom: Spacing.lg,
   },
-  editButtons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    flexShrink: 0,
+
+  // Inputs
+  inputContainer: {
+    marginBottom: Spacing.lg,
   },
-  cancelButton: {
-    marginRight: Spacing.sm,
-    minWidth: 80,
-  },
-  saveButton: {
-    minWidth: 80,
-  },
-  infoCard: {
-    paddingBottom: 0,
-  },
-  input: {
+  inputLabel: {
+    fontSize: 16,
+    color: '#FFFFFF',
     marginBottom: Spacing.sm,
   },
-  bioInput: {
-    minHeight: 80,
+  textInput: {
+    backgroundColor: '#1A1A1A',
+    borderRadius: 8,
+    padding: Spacing.md,
+    fontSize: 16,
+    color: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#333333',
+    minHeight: 48,
   },
-  settingsCard: {
-    padding: 0,
-  },
-  settingItem: {
+
+  // Configurações
+  configItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1A1A1A',
   },
-  settingLabel: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textPrimary,
-    fontWeight: Typography.fontWeight.medium,
+  configLabel: {
+    fontSize: 16,
+    color: '#FFFFFF',
   },
-  settingValue: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textSecondary,
+  configValue: {
+    fontSize: 16,
+    color: '#888888',
   },
-  settingButton: {
-    paddingHorizontal: 0,
-    minWidth: 32,
+  downloadIcon: {
+    fontSize: 20,
   },
-  settingDivider: {
-    height: 1,
-    backgroundColor: Colors.surfaceLight,
-    marginHorizontal: Spacing.md,
+  arrowIcon: {
+    fontSize: 18,
+    color: '#888888',
   },
+
+  // Botão Logout
   logoutButton: {
-    marginTop: Spacing.lg,
-    borderColor: Colors.error,
+    backgroundColor: '#1A1A1A',
+    borderRadius: 12,
+    paddingVertical: Spacing.lg,
+    alignItems: 'center',
+    marginTop: Spacing.xl,
+    borderWidth: 1,
+    borderColor: '#333333',
   },
-  bottomSpacing: {
-    height: Spacing['4xl'],
+  logoutButtonText: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: Typography.fontWeight.medium,
   },
 }); 

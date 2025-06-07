@@ -1,4 +1,4 @@
-// Design System Tokens - SoloSano App
+// Design System Tokens - Naurú Yvy App
 // Baseado no branding da Cainvest (https://cainvest.com)
 
 export const Colors = {

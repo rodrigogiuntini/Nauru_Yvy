@@ -1,37 +1,63 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
-import Card from '../ui/components/Card';
-import Button from '../ui/components/Button';
-import Input from '../ui/components/Input';
-import Badge from '../ui/components/Badge';
 import { useAlerts } from '../context/AlertsContext';
 import { occurrenceStyles as styles } from './OccurrenceScreen.styles';
 
 const OccurrenceScreen = ({ navigation }) => {
   const { createAlertFromOccurrence } = useAlerts();
-  const [formData, setFormData] = useState({
-    type: '',
-    location: '',
-    severity: 'Média',
-    description: '',
-  });
+  const [selectedType, setSelectedType] = useState('');
+  const [location, setLocation] = useState('');
+  const [selectedSeverity, setSelectedSeverity] = useState('');
+  const [description, setDescription] = useState('');
 
   const occurrenceTypes = [
-    { id: 'deforestation', label: 'Desmatamento', icon: '🌳' },
-    { id: 'illegal_mining', label: 'Mineração Ilegal', icon: '⛏️' },
-    { id: 'poaching', label: 'Caça Ilegal', icon: '🦌' },
-    { id: 'pollution', label: 'Poluição', icon: '🏭' },
+    { 
+      id: 'enchente', 
+      label: 'Enchente/\nInundação', 
+      icon: '💧',
+      color: '#8B5CF6'
+    },
+    { 
+      id: 'desmatamento', 
+      label: 'Desmatamento', 
+      icon: '🌲',
+      color: '#10B981'
+    },
+    { 
+      id: 'caca_pesca', 
+      label: 'Caça/pesca\nilegal', 
+      icon: '🐟',
+      color: '#3B82F6'
+    },
+    { 
+      id: 'queimada', 
+      label: 'Queimada', 
+      icon: '🔥',
+      color: '#EF4444'
+    }
   ];
 
-  const severityLevels = ['Baixa', 'Média', 'Alta'];
+  const severityLevels = [
+    { id: 'baixa', label: 'Baixa' },
+    { id: 'media', label: 'Média' },
+    { id: 'alta', label: 'Alta' },
+    { id: 'critica', label: 'Crítica' }
+  ];
 
   const handleSubmit = () => {
-    if (!formData.type || !formData.location || !formData.description) {
+    if (!selectedType || !location || !selectedSeverity || !description) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios');
       return;
     }
+
+    const formData = {
+      type: selectedType,
+      location: location,
+      severity: selectedSeverity,
+      description: description
+    };
 
     // Criar alerta a partir da ocorrência
     const newAlert = createAlertFromOccurrence(formData);
@@ -54,22 +80,12 @@ const OccurrenceScreen = ({ navigation }) => {
     );
   };
 
-  const selectOccurrenceType = (type) => {
-    setFormData(prev => ({ ...prev, type }));
-  };
-
-  const selectSeverity = (severity) => {
-    setFormData(prev => ({ ...prev, severity }));
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Header
         title="Nova Ocorrência"
         showBackButton
         navigation={navigation}
-        rightIcon="close-outline"
-        onRightPress={() => navigation.goBack()}
       />
       
       <ScrollView
@@ -77,61 +93,58 @@ const OccurrenceScreen = ({ navigation }) => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Tipo de Ocorrência */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tipo de Ocorrência</Text>
-          <View style={styles.typeGrid}>
-            {occurrenceTypes.map((type) => (
-              <TouchableOpacity
-                key={type.id}
-                style={[
-                  styles.typeCard,
-                  formData.type === type.id && styles.typeCardSelected
-                ]}
-                onPress={() => selectOccurrenceType(type.id)}
-              >
+        {/* Tipos de Ocorrência */}
+        <View style={styles.typesContainer}>
+          {occurrenceTypes.map((type) => (
+            <TouchableOpacity
+              key={type.id}
+              style={[
+                styles.typeCard,
+                selectedType === type.id && styles.typeCardSelected
+              ]}
+              onPress={() => setSelectedType(type.id)}
+            >
+              <View style={[styles.iconContainer, { backgroundColor: type.color }]}>
                 <Text style={styles.typeIcon}>{type.icon}</Text>
-                <Text style={[
-                  styles.typeLabel,
-                  formData.type === type.id && styles.typeLabelSelected
-                ]}>
-                  {type.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+              </View>
+              <Text style={styles.typeLabel}>{type.label}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         {/* Localização */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Localização</Text>
-          <Input
-            placeholder="Digite a localização"
-            value={formData.location}
-            onChangeText={(value) => setFormData(prev => ({ ...prev, location: value }))}
-            leftIcon="location-outline"
-            style={styles.locationInput}
-          />
+          <Text style={styles.sectionTitle}>Localização:</Text>
+          <View style={styles.locationContainer}>
+            <Text style={styles.locationIcon}>📍</Text>
+            <TextInput
+              style={styles.locationInput}
+              placeholder="Digite a localização"
+              placeholderTextColor="#666666"
+              value={location}
+              onChangeText={setLocation}
+            />
+          </View>
         </View>
 
-        {/* Severidade */}
+        {/* Grau de Severidade */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Severidade</Text>
+          <Text style={styles.sectionTitle}>Grau de severidade:</Text>
           <View style={styles.severityContainer}>
             {severityLevels.map((level) => (
               <TouchableOpacity
-                key={level}
+                key={level.id}
                 style={[
                   styles.severityButton,
-                  formData.severity === level && styles.severityButtonSelected
+                  selectedSeverity === level.id && styles.severityButtonSelected
                 ]}
-                onPress={() => selectSeverity(level)}
+                onPress={() => setSelectedSeverity(level.id)}
               >
                 <Text style={[
                   styles.severityText,
-                  formData.severity === level && styles.severityTextSelected
+                  selectedSeverity === level.id && styles.severityTextSelected
                 ]}>
-                  {level}
+                  {level.label}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -140,43 +153,42 @@ const OccurrenceScreen = ({ navigation }) => {
 
         {/* Fotos */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Fotos</Text>
-          <Card style={styles.photoCard} onPress={() => Alert.alert('Info', 'Funcionalidade de foto em desenvolvimento')}>
-            <View style={styles.photoPlaceholder}>
-              <Text style={styles.photoIcon}>📸</Text>
-              <Text style={styles.photoTitle}>Adicionar Fotos</Text>
-              <Text style={styles.photoSubtitle}>Capture ou envie fotos da ocorrência</Text>
-              <Button
-                title="Adicionar Fotos"
-                variant="secondary"
-                size="small"
-                style={styles.photoButton}
-                onPress={() => Alert.alert('Info', 'Funcionalidade de foto em desenvolvimento')}
-              />
+          <Text style={styles.sectionTitle}>Fotos:</Text>
+          <View style={styles.photoSection}>
+            <View style={styles.cameraContainer}>
+              <Text style={styles.cameraIcon}>📷</Text>
             </View>
-          </Card>
+            <TouchableOpacity 
+              style={styles.addPhotoButton}
+              onPress={() => Alert.alert('Info', 'Funcionalidade de foto em desenvolvimento')}
+            >
+              <Text style={styles.addPhotoText}>Adicionar foto</Text>
+            </TouchableOpacity>
+            <Text style={styles.photoSubtitle}>
+              Capture ou adicione{'\n'}fotos da ocorrência
+            </Text>
+          </View>
         </View>
 
         {/* Descrição */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Descrição</Text>
-          <Input
+          <Text style={styles.sectionTitle}>Descrição:</Text>
+          <TextInput
+            style={styles.descriptionInput}
             placeholder="Descreva a ocorrência"
-            value={formData.description}
-            onChangeText={(value) => setFormData(prev => ({ ...prev, description: value }))}
+            placeholderTextColor="#666666"
+            value={description}
+            onChangeText={setDescription}
             multiline
             numberOfLines={4}
-            style={styles.descriptionInput}
+            textAlignVertical="top"
           />
         </View>
 
-        {/* Botão Submit */}
-        <Button
-          title="Enviar"
-          onPress={handleSubmit}
-          size="large"
-          style={styles.submitButton}
-        />
+        {/* Botão Enviar */}
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>Enviar</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

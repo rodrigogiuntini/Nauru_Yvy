@@ -1,4 +1,4 @@
-# Assets do SoloSano
+# Assets do Naurú Yvy
 
 Esta pasta deve conter os seguintes arquivos de imagem:
 

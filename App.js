@@ -11,10 +11,12 @@ import SplashScreen from './src/pages/SplashScreen';
 import WelcomeScreen from './src/pages/WelcomeScreen';
 import LoginScreen from './src/pages/LoginScreen';
 import RegisterScreen from './src/pages/RegisterScreen';
+import ForgotPasswordScreen from './src/pages/ForgotPasswordScreen';
 import HomeScreen from './src/pages/HomeScreen';
 import SoilScreen from './src/pages/SoilScreen';
 import OccurrenceScreen from './src/pages/OccurrenceScreen';
 import AlertsScreen from './src/pages/AlertsScreen';
+import AlertDetailScreen from './src/pages/AlertDetailScreen';
 import ProfileScreen from './src/pages/ProfileScreen';
 
 // Importando os contextos
@@ -100,7 +102,9 @@ export default function App() {
               <Stack.Screen name="Welcome" component={WelcomeScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="Register" component={RegisterScreen} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
               <Stack.Screen name="Main" component={TabNavigator} />
+              <Stack.Screen name="AlertDetail" component={AlertDetailScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </AlertsProvider>

@@ -1,191 +1,138 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, Modal, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
-import Card from '../ui/components/Card';
-import Scanner from '../ui/components/Scanner';
-import { useAlerts } from '../context/AlertsContext';
-import { homeStyles as styles } from './HomeScreen.styles';
+import { soilStyles as styles } from './SoilScreen.styles';
 
 const SoilScreen = () => {
-  const [showScanner, setShowScanner] = useState(false);
-  const { createAlertFromOccurrence } = useAlerts();
-
-  const parseQRCodeData = (data) => {
-    try {
-      // Tentar parsear como JSON
-      const parsed = JSON.parse(data);
-      return parsed;
-    } catch {
-      // Se não for JSON, tentar interpretar como texto simples
-      // Formato esperado: "tipo:localização:severidade:descrição"
-      const parts = data.split(':');
-      if (parts.length >= 4) {
-        return {
-          type: parts[0],
-          location: parts[1],
-          severity: parts[2],
-          description: parts[3]
-        };
-      }
-      
-      // Fallback: criar ocorrência genérica
-      return {
-        type: 'pollution',
-        location: 'Local detectado via QR Code',
-        severity: 'Média',
-        description: `Dados escaneados: ${data}`
-      };
-    }
-  };
-
-  const handleScanResult = (data) => {
-    console.log('QR Code escaneado:', data);
-    setShowScanner(false);
-    
-    try {
-      const occurrenceData = parseQRCodeData(data);
-      const newAlert = createAlertFromOccurrence(occurrenceData);
-      
-      Alert.alert(
-        'Ocorrência Detectada!',
-        `Uma nova ocorrência foi criada automaticamente a partir do QR Code escaneado.\n\nTipo: ${newAlert.type}\nLocal: ${newAlert.location}`,
-        [
-          {
-            text: 'Ver Alertas',
-            onPress: () => {
-              // Navegar para alertas se tiver navegação disponível
-              console.log('Navegar para alertas');
-            }
-          },
-          { text: 'OK' }
-        ]
-      );
-    } catch (error) {
-      Alert.alert(
-        'Erro',
-        'Não foi possível processar os dados do QR Code. Verifique o formato e tente novamente.'
-      );
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <Header
-        title="Análise de Solo"
-      />
+      <Header title="Análise de Solo" />
       
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Scanner QR Code */}
-        <Card style={styles.mapCard} gradient onPress={() => setShowScanner(true)}>
-          <View style={styles.mapContainer}>
-            <Text style={styles.mapTitle}>Scanner de QR Code</Text>
-            <View style={styles.mapPlaceholder}>
-              <Text style={styles.mapIcon}>📱</Text>
-              <Text style={styles.mapText}>Escaneie para detectar ocorrências</Text>
-            </View>
+        {/* Mapa do Brasil */}
+        <View style={styles.mapContainer}>
+          <View style={styles.brazilMap}>
+            <Text style={styles.mapIcon}>🇧🇷</Text>
           </View>
-        </Card>
+        </View>
 
-        {/* Modal do Scanner */}
-        <Modal
-          visible={showScanner}
-          animationType="slide"
-          presentationStyle="fullScreen"
-        >
-          <Scanner
-            onScan={handleScanResult}
-            onClose={() => setShowScanner(false)}
-          />
-        </Modal>
-
-        {/* Análise de Solo */}
-        <Card style={styles.soilCard}>
-          <View style={styles.soilHeader}>
-            <Text style={styles.sectionTitle}>Análise do Solo</Text>
-            <View style={styles.soilBadge}>
-              <Text style={styles.soilBadgeText}>Atualizado</Text>
-            </View>
-          </View>
+        {/* Territórios Monitorados */}
+        <View style={styles.territorySection}>
+          <Text style={styles.territoryTitle}>Territórios monitorados:</Text>
           
-          <View style={styles.soilContent}>
+          <View style={styles.territoryCard}>
+            <View style={styles.territoryInfo}>
+              <Text style={styles.territoryDetail}>Tipo: Argiloso</Text>
+              <Text style={styles.territoryDetail}>Umidade: 25%</Text>
+              <Text style={styles.territoryDetail}>Textura: Fina</Text>
+              <Text style={styles.territoryDetail}>Retenção de água: Alta</Text>
+              <Text style={styles.territoryDetail}>Fertilidade: Moderada</Text>
+              <Text style={styles.territoryDetail}>Drenagem: Boa</Text>
+            </View>
             <View style={styles.soilImageContainer}>
-              <Text style={styles.soilEmoji}>🌱</Text>
-            </View>
-            
-            <View style={styles.soilDetails}>
-              <Text style={styles.soilType}>Tipo: Argiloso</Text>
-              <Text style={styles.soilInfo}>Umidade: 25%</Text>
-              <Text style={styles.soilInfo}>Textura: Fina</Text>
-              <Text style={styles.soilInfo}>Retenção de Água: Alta</Text>
-              <Text style={styles.soilInfo}>Fertilidade: Moderada</Text>
-              <Text style={styles.soilInfo}>Drenagem: Boa</Text>
+              <View style={styles.soilImage}>
+                <Text style={styles.soilImagePlaceholder}>🌍</Text>
+              </View>
             </View>
           </View>
-        </Card>
-
-        {/* Cards de Status */}
-        <View style={styles.statusCards}>
-          <Card style={[styles.statusCard, styles.statusSuccess]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>💧</Text>
-            <Text style={styles.statusLabel}>Umidade</Text>
-            <Text style={styles.statusValue}>25%</Text>
-          </Card>
-          
-          <Card style={[styles.statusCard, styles.statusWarning]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🌡️</Text>
-            <Text style={styles.statusLabel}>Temperatura</Text>
-            <Text style={styles.statusValue}>23°C</Text>
-          </Card>
         </View>
 
-        <View style={styles.statusCards}>
-          <Card style={[styles.statusCard, styles.statusInfo]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🧪</Text>
-            <Text style={styles.statusLabel}>pH</Text>
-            <Text style={styles.statusValue}>6.8</Text>
-          </Card>
+        {/* Métricas - Primeira linha */}
+        <View style={styles.metricsRow}>
+          <View style={[styles.metricCard, styles.metricBlue]}>
+            <Text style={styles.metricIcon}>💧</Text>
+            <Text style={styles.metricLabel}>Umidade</Text>
+            <Text style={styles.metricValue}>25%</Text>
+          </View>
           
-          <Card style={[styles.statusCard, styles.statusError]} onPress={() => {}}>
-            <Text style={styles.statusIcon}>🌿</Text>
-            <Text style={styles.statusLabel}>Nutrientes</Text>
-            <Text style={styles.statusValue}>Baixo</Text>
-          </Card>
+          <View style={[styles.metricCard, styles.metricYellow]}>
+            <Text style={styles.metricIcon}>🌡️</Text>
+            <Text style={styles.metricLabel}>Temperatura</Text>
+            <Text style={styles.metricValue}>23°C</Text>
+          </View>
         </View>
 
-        {/* Últimas Análises */}
-        <View style={styles.recentSection}>
-          <Text style={styles.sectionTitle}>Análises Recentes</Text>
+        {/* Métricas - Segunda linha */}
+        <View style={styles.metricsRow}>
+          <View style={[styles.metricCard, styles.metricGreen]}>
+            <Text style={styles.metricIcon}>🧪</Text>
+            <Text style={styles.metricLabel}>pH</Text>
+            <Text style={styles.metricValue}>6.8</Text>
+          </View>
           
-          <Card style={styles.recentCard} onPress={() => {}}>
-            <View style={styles.recentItem}>
-              <Text style={styles.recentIcon}>📊</Text>
-              <View style={styles.recentDetails}>
-                <Text style={styles.recentTitle}>Análise Completa - Sector A</Text>
-                <Text style={styles.recentDate}>Hoje, 14:30</Text>
-              </View>
-              <View style={styles.recentStatus}>
-                <Text style={styles.recentStatusText}>Concluído</Text>
-              </View>
-            </View>
-          </Card>
+          <View style={[styles.metricCard, styles.metricRed]}>
+            <Text style={styles.metricIcon}>🌿</Text>
+            <Text style={styles.metricLabel}>Nutrientes</Text>
+            <Text style={styles.metricValue}>Baixo</Text>
+          </View>
+        </View>
 
-          <Card style={styles.recentCard} onPress={() => {}}>
-            <View style={styles.recentItem}>
-              <Text style={styles.recentIcon}>🔬</Text>
-              <View style={styles.recentDetails}>
-                <Text style={styles.recentTitle}>Teste de Fertilidade</Text>
-                <Text style={styles.recentDate}>Ontem, 09:15</Text>
-              </View>
-              <View style={styles.recentStatus}>
-                <Text style={styles.recentStatusText}>Processando</Text>
+        {/* Análise Recente */}
+        <View style={styles.analysisSection}>
+          <Text style={styles.analysisTitle}>Análise Recente:</Text>
+          
+          {/* Linha do Tempo de Alertas */}
+          <View style={styles.analysisCard}>
+            <Text style={styles.analysisCardTitle}>Linha do Tempo de Alertas</Text>
+            <Text style={styles.analysisNumber}>12</Text>
+            <Text style={styles.analysisSubtitle}>Últimos 7 dias</Text>
+            <View style={styles.chartPlaceholder}>
+              {/* Simulação de gráfico com barras */}
+              <View style={styles.chartBars}>
+                <View style={[styles.chartBar, { height: 30 }]} />
+                <View style={[styles.chartBar, { height: 45 }]} />
+                <View style={[styles.chartBar, { height: 25 }]} />
+                <View style={[styles.chartBar, { height: 55 }]} />
+                <View style={[styles.chartBar, { height: 35 }]} />
+                <View style={[styles.chartBar, { height: 40 }]} />
+                <View style={[styles.chartBar, { height: 50 }]} />
               </View>
             </View>
-          </Card>
+          </View>
+
+          {/* Solo por Tipo */}
+          <View style={styles.analysisCard}>
+            <Text style={styles.analysisCardTitle}>Solo por Tipo</Text>
+            <Text style={styles.analysisPercentage}>85%</Text>
+            <Text style={styles.analysisSubtitle}>Últimos 30 dias</Text>
+            <View style={styles.barChartContainer}>
+              <View style={[styles.barChart, { width: '60%' }]} />
+              <View style={[styles.barChart, { width: '85%' }]} />
+              <View style={[styles.barChart, { width: '45%' }]} />
+            </View>
+          </View>
+
+          {/* Risco Ambiental */}
+          <View style={styles.analysisCard}>
+            <Text style={styles.analysisCardTitle}>Risco Ambiental</Text>
+            <Text style={styles.riskStatus}>Estável</Text>
+            <Text style={styles.analysisSubtitle}>Próximos 7 dias</Text>
+            <View style={styles.riskBars}>
+              <View style={styles.riskBar}>
+                <Text style={styles.riskLabel}>Baixo</Text>
+                <View style={styles.riskProgress}>
+                  <View style={[styles.riskFill, { width: '80%' }]} />
+                </View>
+              </View>
+              <View style={styles.riskBar}>
+                <Text style={styles.riskLabel}>Médio</Text>
+                <View style={styles.riskProgress}>
+                  <View style={[styles.riskFill, { width: '60%' }]} />
+                </View>
+              </View>
+              <View style={styles.riskBar}>
+                <Text style={styles.riskLabel}>Alto</Text>
+                <View style={styles.riskProgress}>
+                  <View style={[styles.riskFill, { width: '30%' }]} />
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
