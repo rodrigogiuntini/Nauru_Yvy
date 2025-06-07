@@ -16,10 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nauru.yvy",
-      "infoPlist": {
-        "NSCameraUsageDescription": "Este app precisa acessar a câmera para escanear QR Codes e detectar ocorrências ambientais."
-      }
+      "bundleIdentifier": "com.nauru.yvy"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,7 +39,6 @@
       "expo-location",
       "expo-camera"
     ],
-    "sdkVersion": "53.0.0",
     "extra": {
       "eas": {
         "projectId": "d4381425-5d8a-4663-a0fd-bc7b6d78369d"
