@@ -144,17 +144,9 @@ Líder Comunitário:
 - Relatórios avançados
 - Notificações push
 - Modo offline completo
+- Integração drone com arduino com placa de rede para captura
 
-## 🤝 Contribuição
 
-Este projeto segue as **Diretrizes de Qualidade Bityx** para desenvolvimento Web3 e fintech, garantindo:
-- Código auditável e seguro
-- Testes de cobertura completa
-- Design system escalável
-- Arquitetura modular
-- Documentação técnica
-
-## 📄 Licença
 
 Projeto desenvolvido por Rodrigo,Morena,Pedro - Todos os direitos reservados.
 
