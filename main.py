@@ -1,20 +1,17 @@
 """
 Main entry point for the FastAPI application on Render
 """
-import sys
 import os
+import sys
 
-# Add the backend directory to Python path
-backend_path = os.path.join(os.path.dirname(__file__), 'backend')
-sys.path.insert(0, backend_path)
+# Ensure we can import from backend
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend'))
 
-# Import the FastAPI app from backend
-try:
-    from app.main import app
-except ImportError:
-    # Fallback import
-    from backend.app.main import app
+# Import the app
+from app.main import app
 
+# This is what Render will use
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000))) 
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port) 

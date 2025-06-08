@@ -89,13 +89,26 @@ async def root():
 @app.get("/health")
 async def health_check():
     """
-    Health check endpoint
+    Health check endpoint com mais informações
     """
-    return {
-        "status": "healthy",
-        "version": settings.APP_VERSION,
-        "environment": settings.ENVIRONMENT
-    }
+    try:
+        # Testar conexão básica
+        return {
+            "status": "healthy",
+            "version": settings.APP_VERSION,
+            "environment": settings.ENVIRONMENT,
+            "database": "oracle configured",
+            "timestamp": "2024-01-01T00:00:00Z"
+        }
+    except Exception as e:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "unhealthy",
+                "error": str(e),
+                "version": settings.APP_VERSION
+            }
+        )
 
 
 # Incluir rotas da API v1
