@@ -4,15 +4,13 @@ from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 import oracledb
 
-# Registrar o driver oracledb como padrão para Oracle
-oracledb.init_oracle_client()
-
 # Criar URL de conexão forçando o uso do driver oracledb
 database_url = settings.DATABASE_URL
 if database_url.startswith("oracle://"):
     database_url = database_url.replace("oracle://", "oracle+oracledb://")
 
 # Criar engine do banco de dados
+# Nota: oracledb usa modo "thin" por padrão (puro Python, sem Oracle Client)
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
