@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: nauru-yvy-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ORACLE_HOST
+        value: oracle.fiap.com.br
+      - key: ORACLE_PORT
+        value: 1521
+      - key: ORACLE_SERVICE
+        value: ORCL
+      - key: ORACLE_USER
+        value: rm98044
+      - key: ORACLE_PASSWORD
+        value: "070305"
+      - key: SECRET_KEY
+        value: sua_chave_secreta_aqui
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30 
