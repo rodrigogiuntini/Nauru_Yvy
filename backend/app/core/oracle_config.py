@@ -2,7 +2,6 @@ import os
 import logging
 from typing import Optional, Dict, Any
 import oracledb
-import cx_Oracle
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -117,7 +116,7 @@ class OracleConnectionManager:
     def get_raw_connection(self):
         """Obter conexão raw Oracle para operações específicas"""
         try:
-            return cx_Oracle.connect(
+            return oracledb.connect(
                 user=oracle_settings.oracle_username,
                 password=oracle_settings.oracle_password,
                 dsn=oracle_settings.oracle_dsn,
