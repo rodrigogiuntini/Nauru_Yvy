@@ -103,28 +103,6 @@ O projeto segue as diretrizes de design da **Bityx/CAInvest** com:
 - Grid de 8px para espaçamentos
 - Suporte a modo claro/escuro
 
-## 🔧 Estrutura do Projeto
-
-```
-/
-├── src/
-│   ├── ui/
-│   │   ├── components/     # Componentes reutilizáveis
-│   │   ├── layouts/        # Layouts base
-│   │   └── styles/         # Estilos globais
-│   ├── pages/              # Telas da aplicação
-│   ├── context/            # Context API
-│   ├── services/           # APIs e serviços
-│   └── utils/              # Utilitários
-├── backend/
-│   ├── app/
-│   │   ├── api/            # Rotas da API
-│   │   ├── models/         # Modelos do banco
-│   │   ├── schemas/        # Schemas Pydantic
-│   │   └── core/           # Configurações
-│   └── alembic/            # Migrações
-└── assets/                 # Recursos estáticos
-```
 
 ## 🧪 Credenciais de Teste
 
@@ -166,19 +144,11 @@ Líder Comunitário:
 - Relatórios avançados
 - Notificações push
 - Modo offline completo
+- Integração drone com arduino com placa de rede para captura
 
-## 🤝 Contribuição
 
-Este projeto segue as **Diretrizes de Qualidade Bityx** para desenvolvimento Web3 e fintech, garantindo:
-- Código auditável e seguro
-- Testes de cobertura completa
-- Design system escalável
-- Arquitetura modular
-- Documentação técnica
 
-## 📄 Licença
-
-Projeto desenvolvido para **CAInvest** - Todos os direitos reservados.
+Projeto desenvolvido por Rodrigo,Morena,Pedro - Todos os direitos reservados.
 
 ---
 
