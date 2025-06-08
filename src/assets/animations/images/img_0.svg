@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="992" viewBox="0 0 1024 992" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="992" fill="transparent"/>
+  
+  <!-- Drone centered -->
+  <g transform="translate(512, 496)">
+    <!-- Propellers -->
+    <ellipse cx="-200" cy="-80" rx="80" ry="25" fill="#2D3A2D" opacity="0.7"/>
+    <ellipse cx="200" cy="-80" rx="80" ry="25" fill="#2D3A2D" opacity="0.7"/>
+    <ellipse cx="-200" cy="80" rx="80" ry="25" fill="#2D3A2D" opacity="0.7"/>
+    <ellipse cx="200" cy="80" rx="80" ry="25" fill="#2D3A2D" opacity="0.7"/>
+    
+    <!-- Propeller centers -->
+    <circle cx="-200" cy="-80" r="15" fill="#1A1A1A"/>
+    <circle cx="200" cy="-80" r="15" fill="#1A1A1A"/>
+    <circle cx="-200" cy="80" r="15" fill="#1A1A1A"/>
+    <circle cx="200" cy="80" r="15" fill="#1A1A1A"/>
+    
+    <!-- Drone arms -->
+    <rect x="-220" y="-10" width="440" height="20" fill="#2D3A2D"/>
+    <rect x="-10" y="-100" width="20" height="200" fill="#2D3A2D"/>
+    
+    <!-- Drone body -->
+    <rect x="-100" y="-40" width="200" height="80" rx="20" fill="#3A4A3A"/>
+    
+    <!-- Camera -->
+    <rect x="-30" y="-20" width="60" height="40" rx="20" fill="#1A1A1A"/>
+    <circle cx="0" cy="0" r="15" fill="#333333"/>
+    <circle cx="0" cy="0" r="8" fill="#555555"/>
+    
+    <!-- LED lights -->
+    <circle cx="-60" cy="-20" r="4" fill="#00FF00"/>
+    <circle cx="60" cy="-20" r="4" fill="#FF0000"/>
+    <circle cx="-60" cy="20" r="4" fill="#FF0000"/>
+    <circle cx="60" cy="20" r="4" fill="#00FF00"/>
+  </g>
+</svg> 

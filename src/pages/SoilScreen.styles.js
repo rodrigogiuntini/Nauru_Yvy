@@ -13,21 +13,20 @@ export const soilStyles = StyleSheet.create({
     paddingBottom: Spacing.xl * 2,
   },
 
-  // Mapa do Brasil
+  // Paisagem do Drone
   mapContainer: {
     padding: Spacing.lg,
     alignItems: 'center',
   },
-  brazilMap: {
-    width: '100%',
-    height: 120,
-    backgroundColor: '#4ECDC4',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mapIcon: {
-    fontSize: 48,
+  droneLandscape: {
+    shadowColor: '#4ECDC4',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
 
   // Territórios Monitorados

@@ -3,14 +3,18 @@ import { View, Text, Alert, ScrollView, TouchableOpacity, TextInput } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
 import { useAlerts } from '../context/AlertsContext';
+import { useAuth } from '../context/AuthContext';
+import apiService from '../services/api';
 import { occurrenceStyles as styles } from './OccurrenceScreen.styles';
 
 const OccurrenceScreen = ({ navigation }) => {
   const { createAlertFromOccurrence } = useAlerts();
+  const { user, token, isAuthenticated } = useAuth();
   const [selectedType, setSelectedType] = useState('');
   const [location, setLocation] = useState('');
   const [selectedSeverity, setSelectedSeverity] = useState('');
   const [description, setDescription] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const occurrenceTypes = [
     { 
@@ -36,6 +40,18 @@ const OccurrenceScreen = ({ navigation }) => {
       label: 'Queimada', 
       icon: '🔥',
       color: '#EF4444'
+    },
+    { 
+      id: 'poluicao', 
+      label: 'Poluição\nAmbiental', 
+      icon: '🏭',
+      color: '#6B7280'
+    },
+    { 
+      id: 'mineracao_ilegal', 
+      label: 'Mineração\nIlegal', 
+      icon: '⛏️',
+      color: '#F59E0B'
     }
   ];
 
@@ -46,38 +62,124 @@ const OccurrenceScreen = ({ navigation }) => {
     { id: 'critica', label: 'Crítica' }
   ];
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedType || !location || !selectedSeverity || !description) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios');
       return;
     }
 
-    const formData = {
-      type: selectedType,
-      location: location,
-      severity: selectedSeverity,
-      description: description
-    };
+    // Validações específicas do backend
+    if (description.trim().length < 10) {
+      Alert.alert('Erro', 'A descrição deve ter pelo menos 10 caracteres.');
+      return;
+    }
 
-    // Criar alerta a partir da ocorrência
-    const newAlert = createAlertFromOccurrence(formData);
+    if (location.trim().length < 5) {
+      Alert.alert('Erro', 'A localização deve ter pelo menos 5 caracteres.');
+      return;
+    }
 
-    Alert.alert(
-      'Sucesso',
-      'Ocorrência reportada com sucesso! Um alerta foi criado automaticamente.',
-      [
-        {
-          text: 'Ver Alertas',
-          onPress: () => {
-            navigation.navigate('Alerts');
+    if (!isAuthenticated || !user) {
+      Alert.alert('Erro', 'Você precisa estar logado para reportar ocorrências');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const occurrenceData = {
+        tipo_ocorrencia: selectedType,
+        localizacao: location.trim(),
+        grau_severidade: selectedSeverity,
+        descricao: description.trim(),
+        coordenadas: null, // TODO: Implementar geolocalização
+        imagens: []
+      };
+
+      console.log('🚨 Enviando ocorrência para API:', occurrenceData);
+
+      // Criar ocorrência na API Oracle
+      const response = await apiService.createOccurrence(occurrenceData);
+
+      if (response.success) {
+        console.log('✅ Ocorrência criada com sucesso:', response.data);
+
+        // Criar alerta local também
+        const alertData = {
+          type: selectedType,
+          location: location,
+          severity: selectedSeverity,
+          description: description
+        };
+        createAlertFromOccurrence(alertData);
+
+        Alert.alert(
+          'Sucesso',
+          'Ocorrência reportada com sucesso no sistema! Um alerta foi criado automaticamente.',
+          [
+            {
+              text: 'Ver Alertas',
+              onPress: () => {
+                navigation.navigate('Alerts');
+              }
+            },
+            {
+              text: 'OK',
+              onPress: () => navigation.goBack()
+            }
+          ]
+        );
+
+        // Limpar formulário
+        setSelectedType('');
+        setLocation('');
+        setSelectedSeverity('');
+        setDescription('');
+
+      } else {
+        throw new Error(response.message || 'Erro desconhecido');
+      }
+
+    } catch (error) {
+      console.error('❌ Erro ao criar ocorrência:', error);
+      
+      let errorMessage = 'A ocorrência foi registrada localmente, mas não foi possível sincronizar com o servidor.';
+      
+      // Verificar se é erro de validação do backend
+      if (error.status === 422) {
+        errorMessage = 'Erro de validação: Verifique se todos os campos estão preenchidos corretamente.';
+      } else if (error.isNetworkError) {
+        errorMessage = 'Erro de conexão. Verifique sua internet e se o servidor está rodando.';
+      } else if (error.status === 401) {
+        errorMessage = 'Sessão expirada. Faça login novamente.';
+      }
+      
+      // Criar alerta local como fallback
+      const alertData = {
+        type: selectedType,
+        location: location,
+        severity: selectedSeverity,
+        description: description
+      };
+      createAlertFromOccurrence(alertData);
+
+      Alert.alert(
+        'Aviso',
+        errorMessage,
+        [
+          {
+            text: 'Ver Alertas',
+            onPress: () => navigation.navigate('Alerts')
+          },
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack()
           }
-        },
-        {
-          text: 'OK',
-          onPress: () => navigation.goBack()
-        }
-      ]
-    );
+        ]
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -95,21 +197,21 @@ const OccurrenceScreen = ({ navigation }) => {
       >
         {/* Tipos de Ocorrência */}
         <View style={styles.typesContainer}>
-          {occurrenceTypes.map((type) => (
-            <TouchableOpacity
-              key={type.id}
-              style={[
-                styles.typeCard,
+            {occurrenceTypes.map((type) => (
+              <TouchableOpacity
+                key={type.id}
+                style={[
+                  styles.typeCard,
                 selectedType === type.id && styles.typeCardSelected
-              ]}
+                ]}
               onPress={() => setSelectedType(type.id)}
-            >
+              >
               <View style={[styles.iconContainer, { backgroundColor: type.color }]}>
                 <Text style={styles.typeIcon}>{type.icon}</Text>
               </View>
               <Text style={styles.typeLabel}>{type.label}</Text>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))}
         </View>
 
         {/* Localização */}
@@ -119,11 +221,11 @@ const OccurrenceScreen = ({ navigation }) => {
             <Text style={styles.locationIcon}>📍</Text>
             <TextInput
               style={styles.locationInput}
-              placeholder="Digite a localização"
+            placeholder="Digite a localização"
               placeholderTextColor="#666666"
               value={location}
               onChangeText={setLocation}
-            />
+          />
           </View>
         </View>
 
@@ -186,8 +288,14 @@ const OccurrenceScreen = ({ navigation }) => {
         </View>
 
         {/* Botão Enviar */}
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Enviar</Text>
+        <TouchableOpacity 
+          style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]} 
+          onPress={handleSubmit}
+          disabled={isSubmitting}
+        >
+          <Text style={styles.submitButtonText}>
+            {isSubmitting ? 'Enviando...' : 'Enviar'}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

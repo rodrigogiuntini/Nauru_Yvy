@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="soilGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D5016;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3D6B1F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4A7C2A;stop-opacity:1" />
+    </linearGradient>
+    
+    <pattern id="soilTexture" patternUnits="userSpaceOnUse" width="100" height="100">
+      <rect width="100" height="100" fill="url(#soilGradient)"/>
+      <circle cx="20" cy="30" r="3" fill="#3A5E1B" opacity="0.6"/>
+      <circle cx="60" cy="15" r="2" fill="#2A4E11" opacity="0.4"/>
+      <circle cx="80" cy="70" r="4" fill="#4A7E2B" opacity="0.5"/>
+      <circle cx="30" cy="80" r="2.5" fill="#2F5317" opacity="0.7"/>
+      <circle cx="75" cy="40" r="3.5" fill="#3F6821" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="1920" height="1080" fill="url(#soilTexture)"/>
+  
+  <!-- Terrain elements -->
+  <path d="M0 800 Q480 750 960 800 T1920 780 L1920 1080 L0 1080 Z" fill="#1F3A0E" opacity="0.8"/>
+  <path d="M0 900 Q320 880 640 900 T1280 890 Q1600 885 1920 890 L1920 1080 L0 1080 Z" fill="#0F2A05" opacity="0.6"/>
+  
+  <!-- Scattered vegetation -->
+  <g opacity="0.4">
+    <path d="M200 700 Q210 680 220 700 Q210 720 200 700" fill="#4F8F2F"/>
+    <path d="M500 750 Q515 720 530 750 Q515 780 500 750" fill="#5F9F3F"/>
+    <path d="M800 680 Q820 650 840 680 Q820 710 800 680" fill="#3F7F1F"/>
+    <path d="M1200 720 Q1225 690 1250 720 Q1225 750 1200 720" fill="#4F8F2F"/>
+    <path d="M1500 760 Q1530 730 1560 760 Q1530 790 1500 760" fill="#5F9F3F"/>
+  </g>
+</svg> 

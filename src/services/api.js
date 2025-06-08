@@ -1,9 +1,25 @@
 // Para dispositivos móveis, usar o IP da máquina em vez de localhost
-const API_BASE_URL = 'http://192.168.0.29:8001/api/v1';
+const API_BASE_URL = 'http://192.168.0.24:8000/api/v1';
 
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
+  }
+
+  async healthCheck() {
+    console.log('🔗 Fazendo requisição: GET', `${this.baseURL}/auth/health`);
+    try {
+      const response = await this.request('/auth/health', {
+        method: 'GET',
+      });
+      console.log('🏥 Health check:', response);
+      console.log('✅ API está funcionando');
+      return response;
+    } catch (error) {
+      console.error('❌ Health check falhou:', error);
+      console.warn('⚠️ API indisponível, modo offline ativado');
+      throw error;
+    }
   }
 
   async request(endpoint, options = {}) {
@@ -24,6 +40,8 @@ class ApiService {
     }
 
     try {
+      console.log('🔗 Fazendo requisição:', options.method || 'GET', url);
+      
       // Criar promise com timeout manual para React Native
       const fetchPromise = fetch(url, config);
       const timeoutPromise = new Promise((_, reject) =>
@@ -51,6 +69,8 @@ class ApiService {
       
       return await response.text();
     } catch (error) {
+      console.error('❌ Erro na requisição', endpoint + ':', error);
+      
       // Se for erro de rede (não conseguiu fazer a requisição)
       if (error.message.includes('Network request failed') || 
           error.message.includes('Request timeout') ||
@@ -98,10 +118,10 @@ class ApiService {
   }
 
   // Métodos de Autenticação
-  async login(email, password) {
+  async login(email, senha) {
     const response = await this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, senha }),
     });
 
     if (response.access_token) {
@@ -158,21 +178,13 @@ class ApiService {
 
   // Métodos de Usuário
   async getCurrentUser() {
-    try {
-      // Tentar usar o novo endpoint de usuários
-      return await this.request('/users/me', {
-        method: 'GET',
-      });
-    } catch (error) {
-      // Fallback para o endpoint antigo
-      return await this.request('/auth/verify-token', {
-        method: 'POST',
-      });
-    }
+    return await this.request('/auth/me', {
+      method: 'GET',
+    });
   }
 
   async updateProfile(userData) {
-    return await this.request('/users/me', {
+    return await this.request('/auth/update-profile', {
       method: 'PUT',
       body: JSON.stringify(userData),
     });
@@ -192,13 +204,39 @@ class ApiService {
 
   // Métodos de Ocorrências
   async getOccurrences() {
-    return await this.request('/occurrences');
+    return await this.request('/occurrences/');
   }
 
   async createOccurrence(occurrenceData) {
-    return await this.request('/occurrences', {
+    return await this.request('/occurrences/', {
       method: 'POST',
       body: JSON.stringify(occurrenceData),
+    });
+  }
+
+  async getUserOccurrences() {
+    return await this.request('/occurrences/', {
+      method: 'GET',
+    });
+  }
+
+  async getOccurrenceStats() {
+    return await this.request('/occurrences/stats/', {
+      method: 'GET',
+    });
+  }
+
+  // Métodos de Perfil
+  async getUserProfile() {
+    return await this.request('/auth/me', {
+      method: 'GET',
+    });
+  }
+
+  async updateUserProfile(profileData) {
+    return await this.request('/auth/update-profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
     });
   }
 

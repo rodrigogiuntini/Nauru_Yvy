@@ -54,12 +54,68 @@ export const alertDetailStyles = StyleSheet.create({
   mapText: {
     fontSize: 32,
   },
+  coordinatesText: {
+    fontSize: 12,
+    color: '#1F2937',
+    marginTop: Spacing.xs,
+    textAlign: 'center',
+  },
+
+  // Error state
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.xl,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#EF4444',
+    textAlign: 'center',
+  },
+
+  // Tipo de Ocorrência
+  typeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  typeIcon: {
+    fontSize: 16,
+    marginRight: Spacing.xs,
+  },
+  typeText: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: Typography.fontWeight.medium,
+  },
+
+  // Status
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  statusIcon: {
+    fontSize: 16,
+    marginRight: Spacing.xs,
+  },
+  statusText: {
+    fontSize: 14,
+    fontWeight: Typography.fontWeight.medium,
+  },
 
   // Severidade
   severityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#7F1D1D',
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     borderRadius: 6,
@@ -71,7 +127,6 @@ export const alertDetailStyles = StyleSheet.create({
   },
   severityText: {
     fontSize: 14,
-    color: '#EF4444',
     fontWeight: Typography.fontWeight.medium,
   },
 
@@ -101,6 +156,29 @@ export const alertDetailStyles = StyleSheet.create({
   },
   imageIcon: {
     fontSize: 32,
+  },
+  image: {
+    width: '100%',
+    height: 120,
+    borderRadius: 8,
+  },
+
+  // No images state
+  noImagesContainer: {
+    alignItems: 'center',
+    paddingVertical: Spacing.xl,
+    backgroundColor: '#1A1A1A',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#333333',
+  },
+  noImagesIcon: {
+    fontSize: 24,
+    marginBottom: Spacing.xs,
+  },
+  noImagesText: {
+    fontSize: 14,
+    color: '#6B7280',
   },
 
   // Botões de Ação
@@ -141,5 +219,51 @@ export const alertDetailStyles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     fontWeight: Typography.fontWeight.semibold,
+  },
+
+  // Button states
+  buttonDisabled: {
+    opacity: 0.6,
+  },
+
+  // Resolved indicator
+  resolvedIndicator: {
+    backgroundColor: '#10B981',
+    borderRadius: 12,
+    paddingVertical: Spacing.lg,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resolvedIndicatorIcon: {
+    fontSize: 20,
+    marginRight: Spacing.sm,
+  },
+  resolvedIndicatorText: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    fontWeight: Typography.fontWeight.semibold,
+  },
+
+  // Debug styles (development only)
+  debugContainer: {
+    backgroundColor: '#1A1A1A',
+    borderRadius: 8,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+  },
+  debugTitle: {
+    fontSize: 14,
+    color: '#F59E0B',
+    fontWeight: Typography.fontWeight.semibold,
+    marginBottom: Spacing.xs,
+  },
+  debugText: {
+    fontSize: 12,
+    color: '#CCCCCC',
+    fontFamily: 'monospace',
+    lineHeight: 16,
   },
 }); 

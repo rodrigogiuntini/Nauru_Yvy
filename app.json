@@ -1,15 +1,16 @@
 {
   "expo": {
     "name": "Naurú Yvy",
-    "slug": "nauru-yvy-app",
-    "version": "1.0.0",
+    "slug": "nauru-yvy-clean",
+    "owner": "rodrigorochagiuntini",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -21,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
       "package": "com.nauru.yvy"
     },
@@ -30,9 +31,8 @@
     },
     "extra": {
       "eas": {
-        "projectId": "d4381425-5d8a-4663-a0fd-bc7b6d78369d"
+        "projectId": "343ee6a7-8be0-469a-95c8-17e979345b42"
       }
-    },
-    "owner": "rodrigo.giuntini"
+    }
   }
 }

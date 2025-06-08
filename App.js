@@ -90,7 +90,7 @@ export default function App() {
       <AuthProvider>
         <AlertsProvider>
           <NavigationContainer>
-            <StatusBar style="light" backgroundColor="#000000" />
+            <StatusBar style="light" />
             <Stack.Navigator
               initialRouteName="Splash"
               screenOptions={{

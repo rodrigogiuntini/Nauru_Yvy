@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Colors, Typography, Spacing } from '../ui/design-system/tokens';
+
+const { width, height } = Dimensions.get('window');
 
 export const registerStyles = StyleSheet.create({
   container: {
@@ -199,5 +201,31 @@ export const registerStyles = StyleSheet.create({
   
   acceptButton: {
     marginTop: 8,
+  },
+
+  // Novos estilos
+  sectionHeader: {
+    marginTop: Spacing.xl,
+    marginBottom: Spacing.lg,
+  },
+
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: Spacing.lg,
+    marginBottom: Spacing.sm,
+  },
+
+  checkboxText: {
+    flex: 1,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+    marginLeft: Spacing.sm,
+    lineHeight: Typography.lineHeight.relaxed * Typography.fontSize.sm,
+  },
+
+  linkText: {
+    color: Colors.primary,
+    fontWeight: Typography.fontWeight.medium,
   },
 }); 

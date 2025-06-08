@@ -1,154 +1,191 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from '../ui/components/Button';
-import Input from '../ui/components/Input';
-import Header from '../ui/components/Header';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  Alert,
+  ScrollView,
+  SafeAreaView
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
-import { loginStyles as styles } from './LoginScreen.styles';
 
 const LoginScreen = ({ navigation }) => {
   const { signIn } = useAuth();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email é obrigatório';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email inválido';
-    }
-    
-    if (!formData.password) {
-      newErrors.password = 'Senha é obrigatória';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleLogin = async () => {
-    if (!validateForm()) return;
-    
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Preencha email e senha');
+      return;
+    }
+
     setLoading(true);
+    
     try {
-      const result = await signIn(formData.email, formData.password);
+      console.log('🚀 Tentando fazer login com:', { email });
+      
+      // Usar o signIn do AuthContext
+      const result = await signIn(email, senha);
       
       if (result.success) {
-        navigation.replace('Main');
+        console.log('✅ Login bem-sucedido via AuthContext');
+        
+        Alert.alert(
+          'Sucesso!', 
+          'Login realizado com sucesso!',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.navigate('Main')
+            }
+          ]
+        );
       } else {
-        Alert.alert('Erro', result.error);
+        throw new Error(result.error || 'Erro no login');
       }
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro inesperado');
+      console.error('❌ Erro no login:', error);
+      
+      let errorMessage = 'Erro no login';
+      
+      if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      Alert.alert('Erro', errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
-    }
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Header
-        showBackButton
-        navigation={navigation}
-      />
-      
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoid}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
+    <LinearGradient
+      colors={['#000000', '#1C1C1E', '#000000']}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView 
+          contentContainerStyle={{
+            flex: 1,
+            padding: 20,
+            justifyContent: 'center',
+          }}
         >
-          <View style={styles.content}>
-            {/* Cabeçalho */}
-            <View style={styles.header}>
-              <Text style={styles.title}>Entrar</Text>
-              <Text style={styles.subtitle}>
-                Acesse sua conta para continuar monitorando
+          {/* Header */}
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 40,
+          }}>
+            <TouchableOpacity 
+              onPress={() => navigation.goBack()}
+              style={{
+                marginRight: 15,
+              }}
+            >
+              <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+            </TouchableOpacity>
+            
+            <View>
+              <Text style={{
+                color: '#FFFFFF',
+                fontSize: 24,
+                fontWeight: 'bold',
+              }}>
+                Entrar
+              </Text>
+              <Text style={{
+                color: '#8E8E93',
+                fontSize: 16,
+                marginTop: 5,
+              }}>
+                Acesse sua conta no Naurú Yvy
               </Text>
             </View>
+          </View>
 
-            {/* Formulário */}
-            <View style={styles.form}>
-              <Input
-                label="Email"
-                placeholder="Digite seu email"
-                value={formData.email}
-                onChangeText={(value) => handleInputChange('email', value)}
-                error={errors.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                leftIcon="mail-outline"
-              />
+          {/* Formulário */}
+          <View style={{ marginBottom: 30 }}>
+            {/* Email */}
+            <TextInput
+              style={{
+                backgroundColor: '#2C2C2E',
+                borderRadius: 12,
+                padding: 16,
+                color: '#FFFFFF',
+                fontSize: 16,
+                marginBottom: 16,
+              }}
+              placeholder="Email"
+              placeholderTextColor="#666666"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-              <Input
-                label="Senha"
-                placeholder="Digite sua senha"
-                value={formData.password}
-                onChangeText={(value) => handleInputChange('password', value)}
-                error={errors.password}
-                secureTextEntry
-                leftIcon="lock-closed-outline"
-              />
+            {/* Senha */}
+            <TextInput
+              style={{
+                backgroundColor: '#2C2C2E',
+                borderRadius: 12,
+                padding: 16,
+                color: '#FFFFFF',
+                fontSize: 16,
+                marginBottom: 20,
+              }}
+              placeholder="Senha"
+              placeholderTextColor="#666666"
+              value={senha}
+              onChangeText={setSenha}
+              secureTextEntry={true}
+            />
 
-              <Button
-                title="Entrar"
-                onPress={handleLogin}
-                loading={loading}
-                style={styles.loginButton}
-                size="large"
-              />
-            </View>
+            {/* Botão Login */}
+            <TouchableOpacity
+              onPress={handleLogin}
+              disabled={loading}
+              style={{
+                backgroundColor: '#4CAF50',
+                borderRadius: 12,
+                padding: 16,
+                alignItems: 'center',
+                marginBottom: 16,
+              }}
+            >
+              <Text style={{
+                color: '#FFFFFF',
+                fontSize: 18,
+                fontWeight: '600',
+              }}>
+                {loading ? 'Entrando...' : 'Entrar'}
+              </Text>
+            </TouchableOpacity>
 
-            {/* Credenciais de teste */}
-            <View style={styles.testCredentials}>
-              <Text style={styles.testTitle}>Credenciais de Teste:</Text>
-              <Text style={styles.testText}>Email: priya@example.com</Text>
-              <Text style={styles.testText}>Senha: 123456</Text>
-            </View>
-
-            {/* Links */}
-            <View style={styles.links}>
-              <Button
-                title="Esqueceu a senha?"
-                variant="ghost"
-                size="small"
-                onPress={() => navigation.navigate('ForgotPassword')}
-              />
-              
-              <View style={styles.signupContainer}>
-                <Text style={styles.signupText}>Não tem uma conta? </Text>
-                <Button
-                  title="Cadastre-se"
-                  variant="ghost"
-                  size="small"
-                  onPress={() => navigation.navigate('Register')}
-                  style={styles.signupButton}
-                />
-              </View>
-            </View>
+            {/* Botão Cadastro */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Register')}
+              style={{
+                alignItems: 'center',
+                padding: 10,
+              }}
+            >
+              <Text style={{
+                color: '#8E8E93',
+                fontSize: 16,
+              }}>
+                Não tem conta? <Text style={{ color: '#4CAF50' }}>Cadastre-se</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

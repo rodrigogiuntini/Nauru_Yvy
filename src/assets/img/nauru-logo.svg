@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Drone -->
+  <g transform="translate(150, 80)">
+    <!-- Propellers -->
+    <ellipse cx="-60" cy="-20" rx="25" ry="8" fill="#2D3A2D"/>
+    <ellipse cx="60" cy="-20" rx="25" ry="8" fill="#2D3A2D"/>
+    
+    <!-- Propeller centers -->
+    <circle cx="-60" cy="-20" r="4" fill="#1A1A1A"/>
+    <circle cx="60" cy="-20" r="4" fill="#1A1A1A"/>
+    
+    <!-- Drone body -->
+    <rect x="-50" y="-10" width="100" height="25" rx="12" fill="#2D3A2D"/>
+    
+    <!-- Camera -->
+    <rect x="-15" y="-5" width="30" height="15" rx="8" fill="#1A1A1A"/>
+    <circle cx="0" cy="2.5" r="8" fill="#FFFFFF"/>
+    <circle cx="0" cy="2.5" r="5" fill="#1A1A1A"/>
+    
+    <!-- Arms -->
+    <rect x="-70" y="-5" width="25" height="8" rx="4" fill="#2D3A2D"/>
+    <rect x="45" y="-5" width="25" height="8" rx="4" fill="#2D3A2D"/>
+  </g>
+  
+  <!-- Leaf -->
+  <g transform="translate(150, 250)">
+    <!-- Main leaf shape -->
+    <path d="M0,-80 Q-40,-60 -50,-20 Q-45,20 -30,50 Q-10,70 0,75 Q5,70 8,65 Q15,45 20,25 Q25,5 22,-15 Q18,-35 10,-55 Q5,-70 0,-80 Z" 
+          fill="#2D5A2D"/>
+    
+    <!-- Leaf veins -->
+    <path d="M0,-75 Q-35,-55 -45,-15 Q-40,25 -25,55" 
+          stroke="#4A7C4A" stroke-width="1" fill="none"/>
+    <path d="M0,-70 Q-30,-50 -35,-10 Q-32,20 -20,45" 
+          stroke="#4A7C4A" stroke-width="1" fill="none"/>
+    <path d="M0,-65 Q-25,-45 -25,-5 Q-22,15 -15,35" 
+          stroke="#4A7C4A" stroke-width="1" fill="none"/>
+    <path d="M0,-60 Q-20,-40 -15,0 Q-12,10 -8,25" 
+          stroke="#4A7C4A" stroke-width="1" fill="none"/>
+    
+    <!-- Central vein -->
+    <path d="M0,-75 L0,70" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+    
+    <!-- Leaf stem curl -->
+    <path d="M0,75 Q10,80 15,85 Q18,88 16,92 Q12,95 8,92" 
+          stroke="#2D5A2D" stroke-width="3" fill="none"/>
+  </g>
+  
+  <!-- Text -->
+  <g transform="translate(150, 340)">
+    <text x="0" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#2D3A2D">
+      NAURÚ
+    </text>
+    <text x="0" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#2D3A2D">
+      YVY
+    </text>
+  </g>
+</svg> 

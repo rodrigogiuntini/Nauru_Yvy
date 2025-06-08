@@ -4,6 +4,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 from app.core.config import settings
 from app.api.v1.endpoints import auth, users
+from app.api.v1 import auth as oracle_auth, occurrences
 
 # Criar aplicação FastAPI
 app = FastAPI(
@@ -37,7 +38,7 @@ else:
 # Adicionar middleware de segurança para hosts confiáveis
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["localhost", "127.0.0.1", "192.168.0.29", "*.cainvest.com", "0.0.0.0"]
+    allowed_hosts=["localhost", "127.0.0.1", "192.168.0.24", "*.cainvest.com", "0.0.0.0"]
 )
 
 
@@ -98,16 +99,28 @@ async def health_check():
 
 
 # Incluir rotas da API v1
+# app.include_router(
+#     auth.router,
+#     prefix=f"{settings.API_V1_STR}/auth",
+#     tags=["Autenticação PostgreSQL"]
+# )
+
 app.include_router(
-    auth.router,
-    prefix=f"{settings.API_V1_STR}/auth",
-    tags=["Autenticação"]
+    oracle_auth.router,
+    prefix=f"{settings.API_V1_STR}",
+    tags=["Autenticação Oracle"]
 )
 
 app.include_router(
     users.router,
     prefix=f"{settings.API_V1_STR}/users",
     tags=["Usuários"]
+)
+
+app.include_router(
+    occurrences.router,
+    prefix=f"{settings.API_V1_STR}",
+    tags=["Ocorrências"]
 )
 
 

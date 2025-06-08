@@ -14,74 +14,29 @@ export const welcomeStyles = StyleSheet.create({
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.xl,
     minHeight: '100%',
+    justifyContent: 'space-between',
   },
   logoContainer: {
     alignItems: 'center',
-    marginTop: Spacing.xl,
+    marginTop: Spacing['2xl'],
     marginBottom: Spacing.xl,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: Colors.primary,
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: Colors.primary,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 15,
   },
-  logoText: {
-    fontSize: Typography.fontSize['4xl'],
-    fontWeight: Typography.fontWeight.bold,
-    color: Colors.textPrimary,
-  },
+
   titleContainer: {
     alignItems: 'center',
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing['2xl'],
   },
   title: {
     fontSize: Typography.fontSize['3xl'],
     fontWeight: Typography.fontWeight.bold,
     color: Colors.textPrimary,
     textAlign: 'center',
-    marginBottom: Spacing.lg,
     lineHeight: Typography.lineHeight.tight * Typography.fontSize['3xl'],
   },
-  subtitle: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: Typography.lineHeight.relaxed * Typography.fontSize.base,
-  },
-  featuresContainer: {
-    marginBottom: Spacing.xl,
-  },
-  feature: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.lg,
-    paddingHorizontal: Spacing.md,
-  },
-  featureIcon: {
-    fontSize: Typography.fontSize['2xl'],
-    marginRight: Spacing.md,
-    width: 32,
-    textAlign: 'center',
-  },
-  featureText: {
-    fontSize: Typography.fontSize.base,
-    color: Colors.textPrimary,
-    fontWeight: Typography.fontWeight.medium,
-    flex: 1,
-  },
+
   buttonContainer: {
-    marginTop: Spacing['2xl'],
     paddingBottom: Spacing.lg,
   },
   startButton: {

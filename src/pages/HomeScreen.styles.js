@@ -24,25 +24,17 @@ export const homeStyles = StyleSheet.create({
     marginBottom: Spacing.xl,
     paddingTop: Spacing.lg,
   },
-  brazilMap: {
-    width: 300,
-    height: 200,
-    backgroundColor: '#4ECDC4',
+  droneAnimation: {
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'transparent',
     shadowColor: '#4ECDC4',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 8,
-  },
-  mapPlaceholder: {
-    fontSize: 60,
-    opacity: 0.8,
   },
   titleSection: {
     marginBottom: Spacing.xl,

@@ -15,12 +15,23 @@ export const alertsStyles = StyleSheet.create({
   },
 
   // Título Principal
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.xl,
+    marginTop: Spacing.lg,
+  },
   pageTitle: {
     fontSize: 28,
     fontWeight: Typography.fontWeight.bold,
     color: '#FFFFFF',
-    marginBottom: Spacing.xl,
-    marginTop: Spacing.lg,
+  },
+  refreshButton: {
+    padding: Spacing.sm,
+  },
+  refreshIcon: {
+    fontSize: 24,
   },
 
   // Filtros
@@ -95,6 +106,60 @@ export const alertsStyles = StyleSheet.create({
   alertSubtitle: {
     fontSize: 14,
     color: '#888888',
+    marginBottom: Spacing.xs,
+  },
+  alertDescription: {
+    fontSize: 13,
+    color: '#AAAAAA',
+    lineHeight: 18,
+  },
+
+  // Estados
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: Spacing['6xl'],
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#888888',
+    marginTop: Spacing.md,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: Spacing['6xl'],
+    paddingHorizontal: Spacing.xl,
+  },
+  emptyIcon: {
+    fontSize: 64,
+    marginBottom: Spacing.lg,
+  },
+  emptyTitle: {
+    fontSize: 20,
+    fontWeight: Typography.fontWeight.semibold,
+    color: '#FFFFFF',
+    marginBottom: Spacing.md,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888888',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: Spacing.xl,
+  },
+  createButton: {
+    backgroundColor: '#22C55E',
+    borderRadius: 8,
+    paddingHorizontal: Spacing.xl,
+    paddingVertical: Spacing.md,
+  },
+  createButtonText: {
+    fontSize: 16,
+    fontWeight: Typography.fontWeight.medium,
+    color: '#FFFFFF',
   },
 
   // Botão Detalhes

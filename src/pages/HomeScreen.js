@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
+import DroneAnimation from '../ui/components/DroneAnimation';
 import { homeStyles as styles } from './HomeScreen.styles';
 
 const HomeScreen = () => {
@@ -52,11 +53,13 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Mapa do Brasil */}
+        {/* Animação do Drone */}
         <View style={styles.mapContainer}>
-          <View style={styles.brazilMap}>
-            <Text style={styles.mapPlaceholder}>🇧🇷</Text>
-          </View>
+          <DroneAnimation 
+            width={350}
+            height={250}
+            style={styles.droneAnimation}
+          />
         </View>
 
         {/* Título Principal */}
@@ -107,8 +110,8 @@ const HomeScreen = () => {
               <Text style={styles.featureText}>
                 Visualização de mapas de risco gerados a partir da fusão dos dados automatizados e dos registros locais;
               </Text>
-            </View>
-            
+          </View>
+          
             <View style={styles.featureItem}>
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.featureText}>

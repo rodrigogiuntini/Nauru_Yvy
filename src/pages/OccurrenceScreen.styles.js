@@ -177,6 +177,10 @@ export const occurrenceStyles = StyleSheet.create({
     alignItems: 'center',
     marginTop: Spacing.xl,
   },
+  submitButtonDisabled: {
+    backgroundColor: '#6B7280',
+    opacity: 0.7,
+  },
   submitButtonText: {
     fontSize: 18,
     color: '#FFFFFF',

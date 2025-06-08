@@ -48,4 +48,8 @@ database_dump.sql
 *.log
 
 # Debug files
-DEBUG_*.md 
+DEBUG_*.md
+
+# Android and iOS
+/android
+/ios 

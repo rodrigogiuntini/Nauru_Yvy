@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../ui/components/Header';
+import DroneLandscape from '../ui/components/DroneLandscape';
 import { soilStyles as styles } from './SoilScreen.styles';
 
 const SoilScreen = () => {
@@ -14,11 +15,13 @@ const SoilScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {/* Mapa do Brasil */}
+        {/* Paisagem do Drone */}
         <View style={styles.mapContainer}>
-          <View style={styles.brazilMap}>
-            <Text style={styles.mapIcon}>🇧🇷</Text>
-          </View>
+          <DroneLandscape 
+            width={350}
+            height={200}
+            style={styles.droneLandscape}
+          />
         </View>
 
         {/* Territórios Monitorados */}
@@ -37,7 +40,7 @@ const SoilScreen = () => {
             <View style={styles.soilImageContainer}>
               <View style={styles.soilImage}>
                 <Text style={styles.soilImagePlaceholder}>🌍</Text>
-              </View>
+            </View>
             </View>
           </View>
         </View>

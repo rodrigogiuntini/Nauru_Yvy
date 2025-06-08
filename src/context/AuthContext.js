@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import apiService from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ApiService from '../services/api';
 
 const AuthContext = createContext({});
 
@@ -14,6 +14,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,23 +24,25 @@ export const AuthProvider = ({ children }) => {
   const loadStoredUser = async () => {
     try {
       const storedUser = await AsyncStorage.getItem('@SoloSano:user');
-      const token = await AsyncStorage.getItem('@SoloSano:token');
+      const storedToken = await AsyncStorage.getItem('@SoloSano:token');
       
-      if (storedUser && token) {
-        try {
-          // Verificar se o token ainda é válido
-          const response = await ApiService.verifyToken();
-          if (response.valid) {
-            setUser(JSON.parse(storedUser));
-          } else {
-            // Token inválido, limpar dados
-            await AsyncStorage.removeItem('@SoloSano:user');
-            await AsyncStorage.removeItem('@SoloSano:token');
-          }
-        } catch (error) {
-          // Erro na verificação, usar dados locais
-          setUser(JSON.parse(storedUser));
-        }
+      console.log('🔍 Carregando usuário armazenado...', { 
+        hasUser: !!storedUser, 
+        hasToken: !!storedToken 
+      });
+      
+      if (storedUser && storedToken) {
+        const parsedUser = JSON.parse(storedUser);
+        console.log('✅ Dados encontrados no storage:');
+        console.log('👤 Usuário:', parsedUser);
+        console.log('🔑 Token:', storedToken);
+        
+        setUser(parsedUser);
+        setToken(storedToken);
+        console.log('✅ Usuário e token carregados do storage');
+      } else {
+        console.log('❌ Nenhum usuário ou token encontrado no storage');
+        console.log('📱 Dados no storage:', { storedUser, storedToken });
       }
     } catch (error) {
       console.error('Erro ao carregar usuário armazenado:', error);
@@ -48,57 +51,77 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (email, senha) => {
     try {
       console.log('🔐 Tentando login para:', email);
       
       // Chamar API de login
-      const response = await ApiService.login(email, password);
+      const response = await apiService.login(email, senha);
       
       if (response.access_token) {
-        console.log('✅ Token recebido, obtendo dados do usuário...');
+        console.log('✅ Token recebido:', response.access_token);
         
-        try {
-          // Obter dados do usuário
-          const userData = await ApiService.getCurrentUser();
+        // Usar dados do usuário que já vêm na resposta do login
+        if (response.user_info) {
+          console.log('✅ Dados do usuário recebidos:', response.user_info);
           
-          // Função para traduzir roles
-          const translateRole = (role) => {
-            const roleTranslations = {
-              'admin': 'Administrador',
-              'community_leader': 'Líder Comunitário', 
-              'community_member': 'Membro da Comunidade',
-              'researcher': 'Pesquisador'
+          // Função para traduzir tipos de usuário
+          const translateUserType = (tipo) => {
+            const typeTranslations = {
+              'administrador': 'Administrador',
+              'lider_territorial': 'Líder Territorial',
+              'monitor_ambiental': 'Monitor Ambiental',
+              'membro_comunidade': 'Membro da Comunidade',
+              'pesquisador': 'Pesquisador'
             };
-            return roleTranslations[role] || 'Membro da Comunidade';
+            return typeTranslations[tipo] || 'Usuário';
           };
 
           const userInfo = {
-            id: userData.user_id,
-            email: userData.email,
-            name: userData.name || 'Usuário',
-            role: translateRole(userData.role),
-            age: userData.age,
-            bio: userData.bio,
+            id: response.user_info.id,
+            email: response.user_info.email,
+            name: response.user_info.nome || 'Usuário',
+            role: translateUserType(response.user_info.tipo_usuario),
+            age: response.user_info.idade,
+            bio: response.user_info.principal_atuacao || '',
+            nome_social: response.user_info.nome_social || '',
+            nome_indigena: response.user_info.nome_indigena || '',
+            aldeia_comunidade: response.user_info.aldeia_comunidade || '',
+            localizacao_territorio: response.user_info.localizacao_territorio || '',
+            telefone: response.user_info.telefone || '',
+            tipo_usuario: response.user_info.tipo_usuario
           };
           
+          console.log('🔄 Salvando dados no contexto...');
+          console.log('📝 User Info a ser salvo:', userInfo);
+          
+          // Armazenar token e usuário
+          setToken(response.access_token);
           setUser(userInfo);
+          
+          console.log('💾 Salvando no AsyncStorage...');
+          await AsyncStorage.setItem('@SoloSano:token', response.access_token);
           await AsyncStorage.setItem('@SoloSano:user', JSON.stringify(userInfo));
           
-          console.log('✅ Login realizado com sucesso!');
-          return { success: true };
-        } catch (userError) {
-          console.log('⚠️ Erro ao obter dados do usuário, usando dados básicos');
+          console.log('✅ Login realizado com sucesso! Dados salvos.');
+          console.log('👤 Usuário atual no contexto:', userInfo);
+          console.log('🔑 Token atual no contexto:', response.access_token);
           
-          // Se falhar ao obter dados do usuário, criar um usuário básico
+          return { success: true };
+        } else {
+          // Fallback: criar usuário básico se não há user_info
+          console.log('⚠️ Nenhuma informação de usuário recebida, usando dados básicos');
+          
           const basicUserInfo = {
-            id: Date.now(), // ID temporário
+            id: Date.now(),
             email: email,
             name: 'Usuário',
             role: 'Membro da Comunidade',
           };
           
+          setToken(response.access_token);
           setUser(basicUserInfo);
+          await AsyncStorage.setItem('@SoloSano:token', response.access_token);
           await AsyncStorage.setItem('@SoloSano:user', JSON.stringify(basicUserInfo));
           
           return { success: true };
@@ -109,48 +132,19 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log('❌ Erro no login:', error.message);
       
-      // Se for erro de rede, usar modo offline
-      if (error.isNetworkError) {
-        console.warn('🌐 Erro de rede detectado, usando modo offline');
-        
-        // Credenciais de teste para desenvolvimento
-        const testCredentials = [
-          { email: 'admin@ecosolo.com', password: 'admin123', name: 'Admin Naurú Yvy', role: 'Administrador' },
-          { email: 'priya@example.com', password: '123456', name: 'Priya Santos', role: 'Líder Comunitário' },
-          { email: 'joao.silva@ecosolo.com', password: '123456', name: 'João Silva', role: 'Membro da Comunidade' },
-          { email: 'maria.oliveira@ecosolo.com', password: '123456', name: 'Maria Oliveira', role: 'Pesquisador' },
-        ];
-        
-        const testUser = testCredentials.find(u => u.email === email && u.password === password);
-        
-        if (testUser) {
-          const userInfo = {
-            id: Date.now(),
-            email: testUser.email,
-            name: testUser.name,
-            role: testUser.role,
-            age: 35,
-            bio: 'Usuário de teste (modo offline)',
-          };
-          
-          setUser(userInfo);
-          await AsyncStorage.setItem('@SoloSano:user', JSON.stringify(userInfo));
-          
-          console.log('✅ Login offline realizado com sucesso!');
-          return { success: true };
-        } else {
-          return { 
-            success: false, 
-            error: 'Credenciais inválidas (modo offline)'
-          };
-        }
-      }
-      
       // Para erros de credenciais (401) ou outros erros da API
       if (error.status === 401) {
         return { 
           success: false, 
           error: 'Email ou senha incorretos'
+        };
+      }
+      
+      // Para erros de rede
+      if (error.isNetworkError) {
+        return { 
+          success: false, 
+          error: 'Erro de conexão. Verifique sua internet e tente novamente.'
         };
       }
       
@@ -165,27 +159,34 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('📝 Tentando registrar usuário:', userData.email);
       
-      // Preparar dados para registro
+      // Preparar dados para registro conforme o backend espera
       const registerData = {
-        name: userData.name,
+        nome: userData.nome,
         email: userData.email,
-        password: userData.password,
-        role: 'community_member', // Usar enum correto do backend
-        age: userData.age || null,
-        bio: userData.bio || null,
+        senha: userData.senha,
+        tipo_usuario: userData.tipo_usuario || 'membro_comunidade',
+        telefone: userData.telefone || '',
+        territorio_id: userData.territorio_id || 1,
+        nome_social: userData.nome_social || '',
+        nome_indigena: userData.nome_indigena || '',
+        idade: userData.idade ? parseInt(userData.idade) : null,
+        principal_atuacao: userData.principal_atuacao || '',
+        aldeia_comunidade: userData.aldeia_comunidade || '',
+        localizacao_territorio: userData.localizacao_territorio || '',
+        aceite_lgpd: userData.aceite_lgpd || false
       };
 
       console.log('📤 Enviando dados de registro:', registerData);
 
       // Chamar API de registro
-      const response = await ApiService.register(registerData);
+      const response = await apiService.register(registerData);
       
       console.log('✅ Usuário registrado com sucesso:', response);
       
       if (response.id) {
         // Fazer login automático após registro
         console.log('🔄 Fazendo login automático...');
-        const loginResult = await signIn(userData.email, userData.password);
+        const loginResult = await signIn(userData.email, userData.senha);
         return loginResult;
       }
       
@@ -193,25 +194,12 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('❌ Erro no registro:', error);
       
-      // Se for erro de rede, usar modo offline
+      // Para erros de rede
       if (error.isNetworkError) {
-        console.warn('🌐 Erro de rede detectado no registro, usando modo offline');
-        
-        // Simular registro local em modo offline
-        const userInfo = {
-          id: Date.now(),
-          email: userData.email,
-          name: userData.name,
-          role: 'Membro da Comunidade',
-          age: userData.age,
-          bio: userData.bio || 'Usuário registrado offline',
+        return { 
+          success: false, 
+          error: 'Erro de conexão. Verifique sua internet e tente novamente.'
         };
-        
-        setUser(userInfo);
-        await AsyncStorage.setItem('@SoloSano:user', JSON.stringify(userInfo));
-        
-        console.log('✅ Registro offline realizado com sucesso!');
-        return { success: true };
       }
       
       // Para erros de validação (422) ou outros erros da API
@@ -251,11 +239,16 @@ export const AuthProvider = ({ children }) => {
   const signOut = async (navigation = null) => {
     try {
       // Chamar logout da API para invalidar token
-      await ApiService.logout();
+      if (token) {
+        await apiService.logout();
+      }
       
       setUser(null);
+      setToken(null);
       await AsyncStorage.removeItem('@SoloSano:user');
       await AsyncStorage.removeItem('@SoloSano:token');
+      
+      console.log('✅ Logout realizado com sucesso');
       
       // Se a navegação foi fornecida, navegar para a tela de login
       if (navigation) {
@@ -286,7 +279,7 @@ export const AuthProvider = ({ children }) => {
       // TODO: Implementar chamada para API quando autenticação estiver funcionando
       /*
       try {
-        const response = await ApiService.updateProfile(updatedData);
+        const response = await apiService.updateProfile(updatedData);
         console.log('✅ Perfil atualizado no backend:', response);
         
         // Atualizar dados locais com a resposta do backend
@@ -322,6 +315,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    token,
     loading,
     signIn,
     signUp,
@@ -335,4 +329,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}; 
+};
+
+export { AuthContext }; 
