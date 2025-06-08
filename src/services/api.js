@@ -1,5 +1,15 @@
-// Para dispositivos móveis, usar o IP da máquina em vez de localhost
-const API_BASE_URL = 'http://192.168.0.24:8000/api/v1';
+// Configuração de ambiente
+const IS_DEVELOPMENT = __DEV__;
+const LOCAL_IP = '192.168.0.24'; // IP da sua máquina
+const PRODUCTION_URL = 'https://nauru-yvy-api.onrender.com'; // URL de produção Render
+
+// Para desenvolvimento: usar IP local
+// Para produção: usar URL do servidor
+const API_BASE_URL = IS_DEVELOPMENT 
+  ? `http://${LOCAL_IP}:8000/api/v1`
+  : `${PRODUCTION_URL}/api/v1`;
+
+console.log('🌐 API URL configurada:', API_BASE_URL);
 
 class ApiService {
   constructor() {

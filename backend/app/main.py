@@ -38,7 +38,7 @@ else:
 # Adicionar middleware de segurança para hosts confiáveis
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["localhost", "127.0.0.1", "192.168.0.24", "*.cainvest.com", "0.0.0.0"]
+    allowed_hosts=["localhost", "127.0.0.1", "192.168.0.24", "*.cainvest.com", "*.vercel.app", "0.0.0.0"]
 )
 
 
