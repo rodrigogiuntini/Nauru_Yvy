@@ -5,6 +5,8 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: DATABASE_URL
+        value: "oracle://rm98044:070305@oracle.fiap.com.br:1521/ORCL"
       - key: ORACLE_HOST
         value: oracle.fiap.com.br
       - key: ORACLE_PORT
